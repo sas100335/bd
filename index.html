@@ -3,27 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Ultra Creative Neural Portal 🚀</title>
+<title>Neural Portal: Live Data Capture 🚀</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; user-select: none; }
 body, html { width: 100%; height: 100%; overflow: hidden; background: #030712; color: #fff; display: flex; justify-content: center; align-items: center; }
 
-/* 3D Canvas Background */
 #particleCanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 
-/* Main Glass Card */
 .portal-card {
   position: relative; z-index: 10;
   width: 90%; max-width: 420px;
   padding: 40px 32px;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 28px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
   text-align: center;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
 .avatar-ring {
@@ -32,116 +28,102 @@ body, html { width: 100%; height: 100%; overflow: hidden; background: #030712; c
   background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
   padding: 3px;
   box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
-  animation: pulseGlow 3s infinite alternate;
 }
 .avatar-inner {
   width: 100%; height: 100%; background: #0f172a; border-radius: 50%;
   display: flex; justify-content: center; align-items: center; font-size: 28px;
 }
 
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
-  100% { box-shadow: 0 0 35px rgba(236, 72, 153, 0.7); }
-}
-
-h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
 p.desc { font-size: 13px; color: #94a3b8; margin-bottom: 30px; }
 
-.input-field {
-  position: relative; margin-bottom: 20px; text-align: left;
-}
-.input-field label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 8px; }
+.input-field { position: relative; margin-bottom: 20px; text-align: left; }
+.input-field label { display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
 .input-field input {
   width: 100%; padding: 15px 18px; background: rgba(30, 41, 59, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px;
-  color: #fff; font-size: 15px; outline: none; transition: 0.3s ease;
+  color: #fff; font-size: 15px; outline: none; transition: 0.3s;
 }
-.input-field input:focus {
-  border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); background: rgba(30, 41, 59, 0.9);
-}
+.input-field input:focus { border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
 
 .btn-primary {
   width: 100%; padding: 16px;
   background: linear-gradient(135deg, #6366f1, #a855f7);
   border: none; border-radius: 14px;
   color: #fff; font-size: 16px; font-weight: 600;
-  cursor: pointer; transition: 0.3s;
-  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+  cursor: pointer; box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
   margin-top: 10px;
 }
 .btn-primary:active { transform: scale(0.97); }
+#errorMsg { color: #f43f5e; font-size: 13px; margin-top: 15px; min-height: 20px; }
 
-#errorMsg { color: #f43f5e; font-size: 13px; margin-top: 15px; min-height: 20px; font-weight: 500; }
-
-/* Dashboard & Logout Area */
-.dashboard-card { display: none; }
+/* Dashboard Card */
+.dashboard-card { display: none; text-align: left; }
+.captured-box {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  margin: 15px 0 25px 0;
+  font-family: monospace;
+  font-size: 14px;
+  color: #38bdf8;
+}
 
 .logout-anim-btn {
-  position: relative;
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 16px 36px; background: #1e1b4b;
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  border-radius: 16px; color: #fff; font-size: 16px; font-weight: 600;
-  cursor: pointer; overflow: hidden; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; background: #e11d48;
+  border: none; border-radius: 14px; color: #fff; font-size: 16px; font-weight: 600;
+  cursor: pointer; overflow: hidden; transition: 0.4s;
+  box-shadow: 0 10px 30px rgba(225, 29, 72, 0.4);
 }
-.logout-anim-btn:hover { background: #2e1065; border-color: #a855f7; }
-
-.door-icon {
-  width: 22px; height: 26px; fill: none; stroke: #a855f7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  margin-left: 12px; transition: 0.3s;
-}
-
+.door-icon { width: 22px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; margin-left: 10px; }
 .walking-man {
-  position: absolute; right: 28px; width: 10px; height: 18px;
-  background: #ec4899; border-radius: 3px; opacity: 0;
+  position: absolute; right: 35%; width: 10px; height: 18px;
+  background: #fff; border-radius: 3px; opacity: 0;
   transition: transform 0.6s ease-in-out, opacity 0.3s ease;
 }
-
-.logout-anim-btn.animating .walking-man {
-  opacity: 1; transform: translateX(45px);
-}
-.logout-anim-btn.animating {
-  background: #e11d48; border-color: #f43f5e; padding-right: 60px;
-}
+.logout-anim-btn.animating .walking-man { opacity: 1; transform: translateX(55px); }
 </style>
 </head>
 <body>
 
 <canvas id="particleCanvas"></canvas>
 
-<!-- Login Interface -->
+<!-- Login Form -->
 <div class="portal-card" id="loginCard">
   <div class="avatar-ring">
     <div class="avatar-inner">⚡</div>
   </div>
   <h2>Neural Portal</h2>
-  <p class="desc">Enter authorized email & passcode to establish stream</p>
+  <p class="desc">Enter authorized credentials to capture & connect</p>
 
   <div class="input-field">
     <label>Email Address</label>
-    <input type="email" id="email" placeholder="alex@nexus.io" autocomplete="off">
+    <input type="email" id="email" placeholder="user@nexus.io" autocomplete="off">
   </div>
 
   <div class="input-field">
-    <label>Passcode</label>
+    <label>Passcode / Password</label>
     <input type="password" id="password" placeholder="••••••••">
   </div>
 
-  <button class="btn-primary" onclick="handleLogin()">Initialize Access ➔</button>
+  <button class="btn-primary" onclick="handleLogin()">Capture & Access ➔</button>
   <div id="errorMsg"></div>
 </div>
 
-<!-- Logged In Creative Dashboard -->
+<!-- Dashboard with Live Captured Data Display -->
 <div class="portal-card dashboard-card" id="dashCard">
-  <div class="avatar-ring" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
-    <div class="avatar-inner">🛡️</div>
+  <h2 style="color:#10b981; text-align:center;">Data Captured! 🛡️</h2>
+  <p class="desc" style="text-align:center; margin-bottom:15px;">The user entered the following details into the system:</p>
+
+  <div class="captured-box" id="dataDisplay">
+    <!-- Captured info will appear here -->
   </div>
-  <h2 style="color:#10b981;">Stream Connected</h2>
-  <p class="desc" style="margin-bottom:35px;">Session token active. Click below to experience the animated logout sequence.</p>
 
   <button class="logout-anim-btn" id="logoutBtn" onclick="handleLogout()">
-    <span id="btnText">Sign Out</span>
+    <span id="btnText">Sign Out & Reset</span>
     <svg class="door-icon" viewBox="0 0 24 24">
       <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
     </svg>
@@ -150,21 +132,7 @@ p.desc { font-size: 13px; color: #94a3b8; margin-bottom: 30px; }
 </div>
 
 <script>
-// Web Audio Synthesizer Sound FX
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playSFX(freq, duration, type = 'sine') {
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(); osc.stop(audioCtx.currentTime + duration);
-}
-
-// Interactive 3D Canvas Background
+// Canvas Background
 const canvas = document.getElementById('particleCanvas');
 const ctx = canvas.getContext('2d');
 let width, height, particles = [];
@@ -173,13 +141,10 @@ function initCanvas() {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
   particles = [];
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 50; i++) {
     particles.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.8,
-      vy: (Math.random() - 0.5) * 0.8,
-      size: Math.random() * 2 + 1
+      x: Math.random() * width, y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6, size: Math.random() * 2 + 1
     });
   }
 }
@@ -190,18 +155,14 @@ function drawCanvas() {
   ctx.clearRect(0, 0, width, height);
   ctx.fillStyle = 'rgba(168, 85, 247, 0.4)';
   ctx.strokeStyle = 'rgba(99, 102, 241, 0.08)';
-
   particles.forEach((p, idx) => {
     p.x += p.vx; p.y += p.vy;
     if (p.x < 0 || p.x > width) p.vx *= -1;
     if (p.y < 0 || p.y > height) p.vy *= -1;
-
     ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
-
     for (let j = idx + 1; j < particles.length; j++) {
       let p2 = particles[j];
-      let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-      if (dist < 120) {
+      if (Math.hypot(p.x - p2.x, p.y - p2.y) < 120) {
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
       }
     }
@@ -210,38 +171,38 @@ function drawCanvas() {
 }
 drawCanvas();
 
-// Login & Logout Handler Logic
+// Login & Capture Logic
 function handleLogin() {
   const email = document.getElementById('email').value.trim();
   const pass = document.getElementById('password').value.trim();
   const errorMsg = document.getElementById('errorMsg');
 
   if (!email || !pass) {
-    playSFX(150, 0.2, 'sawtooth');
     errorMsg.textContent = "⚠️ Please fill all input fields.";
-    const card = document.getElementById('loginCard');
-    card.style.transform = "translateX(10px)";
-    setTimeout(() => card.style.transform = "translateX(-10px)", 80);
-    setTimeout(() => card.style.transform = "translateX(0)", 160);
     return;
   }
 
-  playSFX(600, 0.25);
   errorMsg.textContent = "";
+
+  // Display captured data on screen instantly!
+  document.getElementById('dataDisplay').innerHTML = `
+    📧 <b>Email:</b> ${email}<br>
+    🔑 <b>Password:</b> ${pass}<br>
+    🕒 <b>Time:</b> ${new Date().toLocaleTimeString()}
+  `;
+
   document.getElementById('loginCard').style.display = 'none';
   document.getElementById('dashCard').style.display = 'block';
 }
 
 function handleLogout() {
-  playSFX(300, 0.3, 'triangle');
   const btn = document.getElementById('logoutBtn');
   btn.classList.add('animating');
-  document.getElementById('btnText').textContent = "Signing Out...";
+  document.getElementById('btnText').textContent = "Logging Out...";
 
   setTimeout(() => {
-    playSFX(180, 0.4);
     btn.classList.remove('animating');
-    document.getElementById('btnText').textContent = "Sign Out";
+    document.getElementById('btnText').textContent = "Sign Out & Reset";
     document.getElementById('email').value = "";
     document.getElementById('password').value = "";
     document.getElementById('dashCard').style.display = 'none';
