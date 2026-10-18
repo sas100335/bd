@@ -1,270 +1,43 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shehara's Heart Match 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Fight - Web Edition ⚔️</title>
 <style>
+* { box-sizing: border-box; user-select: none; }
 body {
   margin: 0;
-  background: linear-gradient(135deg, #1b0028, #3d004d);
+  background: #0a0a0c;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  padding: 10px;
-  user-select: none;
+  overflow: hidden;
 }
-h1 { color: #ff3399; font-size: 24px; margin: 5px 0; text-shadow: 0 0 10px #ff007f; }
-.info-bar {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 8px 15px;
-  display: inline-flex;
-  gap: 15px;
-  font-size: 16px;
-  font-weight: bold;
-  border: 1px solid rgba(255, 51, 153, 0.4);
-  margin-bottom: 10px;
-}
-.board {
-  display: grid;
-  grid-template-columns: repeat(6, 45px);
-  grid-template-rows: repeat(6, 45px);
-  gap: 5px;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 10px;
-  border-radius: 15px;
-  border: 2px solid #ff3399;
-  margin: 0 auto 15px auto;
-  box-shadow: 0 0 20px rgba(255, 51, 153, 0.4);
-}
-.cell {
-  width: 45px;
-  height: 45px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+h1 { color: #ff3333; margin: 10px 0 5px; font-size: 22px; text-shadow: 0 0 10px #ff0000; }
+.health-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 500px;
+  margin: 10px auto;
 }
-.cell.selected {
-  background: rgba(255, 51, 153, 0.5);
-  transform: scale(1.1);
-  border: 2px solid #fff;
+.health-bar {
+  width: 45%;
+  height: 20px;
+  background: #333;
+  border: 2px solid #ff3333;
+  border-radius: 10px;
+  overflow: hidden;
 }
-button {
-  padding: 12px 25px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #ff3399, #cc0066);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(255, 51, 153, 0.4);
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff0000, #ff6600);
+  width: 100%;
+  transition: width 0.2s;
 }
-button:active { transform: scale(0.95); }
-</style>
-</head>
-<body>
-
-<h1>👑 Shehara's Heart Match 💖</h1>
-<p style="font-size:13px; color:#ffb3d9; margin-top:0;">Match 3 or more same hearts!</p>
-
-<div class="info-bar">
-  <span>✨ Score: <span id="score">0</span></span>
-  <span>⏳ Moves: <span id="moves">20</span></span>
-</div>
-
-<div class="board" id="board"></div>
-
-<button onclick="resetGame()">Restart Game 🔄</button>
-
-<script>
-const width = 6;
-const height = 6;
-let score = 0;
-let moves = 20;
-let board = [];
-let selectedCell = null;
-
-// Different colored heart / gem symbols
-const hearts = ["❤️", "💖", "💙", "💜", "💛"];
-
-function createBoard() {
-  const boardElement = document.getElementById("board");
-  boardElement.innerHTML = "";
-  board = [];
-
-  for (let i = 0; i < width * height; i++) {
-    let randomHeart;
-    // Avoid initial matches on start
-    do {
-      randomHeart = hearts[Math.floor(Math.random() * hearts.length)];
-    } while (
-      (i >= 2 && board[i - 1] === randomHeart && board[i - 2] === randomHeart) ||
-      (i >= width && board[i - width] === randomHeart && board[i - width * 2] === randomHeart)
-    );
-
-    board.push(randomHeart);
-    const cell = document.createElement("div");
-    cell.classList.add("cell");
-    cell.dataset.id = i;
-    cell.textContent = randomHeart;
-    cell.addEventListener("click", handleCellClick);
-    boardElement.appendChild(cell);
-  }
-}
-
-function handleCellClick() {
-  if (moves <= 0) return;
-  const id = parseInt(this.dataset.id);
-
-  if (selectedCell === null) {
-    selectedCell = id;
-    this.classList.add("selected");
-  } else {
-    const prevCell = document.querySelector(`[data-id='${selectedCell}']`);
-    prevCell.classList.remove("selected");
-
-    // Check if adjacent
-    if (isAdjacent(selectedCell, id)) {
-      // Swap
-      let temp = board[selectedCell];
-      board[selectedCell] = board[id];
-      board[id] = temp;
-
-      updateBoardUI();
-
-      if (checkMatches()) {
-        moves--;
-        document.getElementById("moves").textContent = moves;
-        setTimeout(processMatches, 300);
-      } else {
-        // Swap back if no match
-        let temp = board[selectedCell];
-        board[selectedCell] = board[id];
-        board[id] = temp;
-        updateBoardUI();
-      }
-    }
-    selectedCell = null;
-  }
-}
-
-function isAdjacent(a, b) {
-  const rowA = Math.floor(a / width);
-  const colA = a % width;
-  const rowB = Math.floor(b / width);
-  const colB = b % width;
-  return (Math.abs(rowA - rowB) + Math.abs(colA - colB)) === 1;
-}
-
-function checkMatches() {
-  // Check rows and columns for matches of 3
-  for (let r = 0; r < height; r++) {
-    for (let c = 0; c < width - 2; c++) {
-      let idx = r * width + c;
-      if (board[idx] && board[idx] === board[idx + 1] && board[idx] === board[idx + 2]) return true;
-    }
-  }
-  for (let r = 0; r < height - 2; r++) {
-    for (let c = 0; c < width; c++) {
-      let idx = r * width + c;
-      if (board[idx] && board[idx] === board[idx + width] && board[idx] === board[idx + width * 2]) return true;
-    }
-  }
-  return false;
-}
-
-function processMatches() {
-  let matched = new Set();
-
-  // Find rows
-  for (let r = 0; r < height; r++) {
-    for (let c = 0; c < width - 2; c++) {
-      let idx = r * width + c;
-      if (board[idx] && board[idx] === board[idx + 1] && board[idx] === board[idx + 2]) {
-        matched.add(idx); matched.add(idx + 1); matched.add(idx + 2);
-      }
-    }
-  }
-  // Find columns
-  for (let r = 0; r < height - 2; r++) {
-    for (let c = 0; c < width; c++) {
-      let idx = r * width + c;
-      if (board[idx] && board[idx] === board[idx + width] && board[idx] === board[idx + width * 2]) {
-        matched.add(idx); matched.add(idx + width); matched.add(idx + width * 2);
-      }
-    }
-  }
-
-  if (matched.size > 0) {
-    score += matched.size * 10;
-    document.getElementById("score").textContent = score;
-
-    matched.forEach(idx => {
-      board[idx] = null;
-    });
-
-    updateBoardUI();
-    setTimeout(dropAndRefill, 300);
-  }
-}
-
-function dropAndRefill() {
-  for (let c = 0; c < width; c++) {
-    for (let r = height - 1; r >= 0; r--) {
-      let idx = r * width + c;
-      if (board[idx] === null) {
-        // Find above
-        let aboveR = r - 1;
-        while (aboveR >= 0 && board[aboveR * width + c] === null) {
-          aboveR--;
-        }
-        if (aboveR >= 0) {
-          board[idx] = board[aboveR * width + c];
-          board[aboveR * width + c] = null;
-        } else {
-          board[idx] = hearts[Math.floor(Math.random() * hearts.length)];
-        }
-      }
-    }
-  }
-  updateBoardUI();
-
-  // Check chain matches
-  setTimeout(() => {
-    if (checkMatches()) {
-      processMatches();
-    } else if (moves <= 0) {
-      alert("Game Over, Shehara! Final Score: " + score);
-    }
-  }, 300);
-}
-
-function updateBoardUI() {
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell, idx) => {
-    cell.textContent = board[idx] || "";
-  });
-}
-
-function resetGame() {
-  score = 0;
-  moves = 20;
-  document.getElementById("score").textContent = score;
-  document.getElementById("moves").textContent = moves;
-  createBoard();
-}
-
-createBoard();
-</script>
-
-</body>
-</html>
+#arena {
+  position: relative;
+  width: 95%;
+  max-width
 
