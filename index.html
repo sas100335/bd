@@ -2,327 +2,261 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Fight: Ultimate Edition ⚔️🥷</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Shadow Fight: Sasmitha vs Vinoth ⚔️</title>
 <style>
-* { box-sizing: border-box; user-select: none; touch-action: manipulation; }
-body {
-  margin: 0;
-  background: #050508;
-  color: #fff;
-  font-family: 'Courier New', Courier, monospace;
-  text-align: center;
-  overflow: hidden;
+* { box-sizing: border-box; user-select: none; touch-action: none; margin: 0; padding: 0; }
+body, html {
+  width: 100%; height: 100%; overflow: hidden;
+  background: #020204; color: #fff;
+  font-family: 'Arial Black', Gadget, sans-serif;
+  display: flex; justify-content: center; align-items: center;
 }
-h1 {
-  color: #ff2222;
-  margin: 8px 0;
-  font-size: 20px;
-  text-shadow: 0 0 12px #ff0000, 0 0 5px #fff;
-  letter-spacing: 2px;
+#gameContainer {
+  position: relative; width: 100vw; height: 100vh;
+  background: #000; overflow: hidden;
 }
-.arena-container {
-  position: relative;
-  width: 100%;
-  max-width: 450px;
-  height: 250px;
-  margin: 0 auto;
-  background: linear-gradient(180deg, #100b1a 0%, #2b080f 60%, #150205 100%);
-  border: 3px solid #ff3333;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+canvas {
+  width: 100%; height: 100%; display: block;
 }
-.hud {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 8px 15px;
-  position: absolute;
-  top: 0;
-  z-index: 10;
-  background: rgba(0,0,0,0.4);
+/* UI Overlay */
+.hud-overlay {
+  position: absolute; top: 0; left: 0; width: 100%;
+  padding: 15px 25px; display: flex; justify-content: space-between;
+  z-index: 10; pointer-events: none;
 }
-.fighter-info { width: 45%; text-align: left; }
-.fighter-info.right { text-align: right; }
-.name { font-size: 11px; font-weight: bold; color: #ffcc00; margin-bottom: 2px; }
-.bar-box {
-  width: 100%;
-  height: 14px;
-  background: #222;
-  border: 1px solid #fff;
-  border-radius: 7px;
-  overflow: hidden;
+.fighter-box { width: 40%; }
+.name { font-size: 16px; color: #00ffff; text-shadow: 0 0 8px #00ffff; margin-bottom: 5px; }
+.fighter-box.enemy .name { color: #ff0055; text-shadow: 0 0 8px #ff0055; text-align: right; }
+.hp-bar {
+  width: 100%; height: 22px; background: rgba(255,255,255,0.1);
+  border: 2px solid #fff; border-radius: 11px; overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.8);
 }
-.health-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #ff0000, #ff9900);
-  width: 100%;
-  transition: width 0.15s ease-out;
+.hp-fill {
+  height: 100%; background: linear-gradient(90deg, #ff0000, #ffcc00);
+  width: 100%; transition: width 0.1s linear;
 }
-.ground {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 35px;
-  background: #0a0404;
-  border-top: 2px solid #ff2222;
-}
-/* Fighter Styles - Shadow Ninja */
-.warrior {
-  position: absolute;
-  bottom: 35px;
-  width: 50px;
-  height: 90px;
-  transition: left 0.05s linear;
-}
-.shadow-body {
-  position: absolute;
-  bottom: 0;
-  width: 24px;
-  height: 55px;
-  background: #000;
-  border: 1px solid #444;
-  left: 13px;
-  border-radius: 4px;
-}
-.shadow-head {
-  position: absolute;
-  bottom: 50px;
-  width: 20px;
-  height: 20px;
-  background: #000;
-  border: 1px solid #444;
-  border-radius: 50%;
-  left: 15px;
-}
-.shadow-limb {
-  position: absolute;
-  background: #000;
-  border: 1px solid #333;
-}
-#player { left: 40px; }
-#player .shadow-head, #player .shadow-body { border-color: #00ffff; box-shadow: 0 0 8px #00ffff; }
-#enemy { right: 40px; transform: scaleX(-1); }
-#enemy .shadow-head, #enemy .shadow-body { border-color: #ff0055; box-shadow: 0 0 8px #ff0055; }
+.enemy .hp-fill { float: right; background: linear-gradient(270deg, #ff0000, #ffcc00); }
 
-/* Attack Animations */
-.punch-anim .shadow-body { transform: skewX(-15deg); }
-.kick-anim .shadow-body { transform: rotate(15deg) translateY(-5px); }
+/* Controls UI */
+.controls-layer {
+  position: absolute; bottom: 15px; left: 0; width: 100%;
+  padding: 0 20px; display: flex; justify-content: space-between;
+  z-index: 20; pointer-events: auto;
+}
+.dpad, .attack-pad { display: flex; gap: 12px; align-items: center; }
+.btn {
+  width: 65px; height: 65px; background: rgba(20, 20, 30, 0.75);
+  border: 3px solid #ff0055; color: #fff; font-size: 22px;
+  border-radius: 50%; display: flex; justify-content: center; align-items: center;
+  box-shadow: 0 0 15px rgba(255,0,85,0.4); cursor: pointer;
+}
+.btn:active { background: #ff0055; transform: scale(0.92); }
+.btn-blue { border-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.4); }
+.btn-blue:active { background: #00ffff; }
 
-.controls {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 450px;
-  margin: 12px auto;
-  padding: 0 10px;
-}
-.btn-row { display: flex; gap: 8px; }
-.ctrl-btn {
-  width: 50px;
-  height: 50px;
-  background: #1a1a24;
-  border: 2px solid #ff3333;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ctrl-btn:active { background: #ff3333; transform: scale(0.92); }
-#statusMsg {
-  font-size: 15px;
-  color: #ffcc00;
-  font-weight: bold;
-  margin: 5px 0;
-  min-height: 22px;
-  text-shadow: 0 0 5px rgba(255,204,0,0.5);
-}
-.restart-btn {
-  background: linear-gradient(135deg, #ff3333, #990000);
-  border: none;
-  padding: 10px 25px;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 20px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(255,0,0,0.5);
-  margin-top: 5px;
+#announcer {
+  position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+  font-size: 32px; color: #ffcc00; text-shadow: 0 0 20px #ffcc00;
+  z-index: 30; pointer-events: none; text-align: center;
 }
 </style>
 </head>
 <body>
 
-<h1>🥷 SHADOW FIGHT: ULTIMATE ⚔️</h1>
-<div id="statusMsg">Fight! Defeat the Shadow Rival!</div>
-
-<div class="arena-container">
-  <div class="hud">
-    <div class="fighter-info">
-      <div class="name">PLAYER</div>
-      <div class="bar-box"><div id="pHealthBar" class="health-fill"></div></div>
+<div id="gameContainer">
+  <div class="hud-overlay">
+    <div class="fighter-box">
+      <div class="name">SASMITHA 🥷</div>
+      <div class="hp-bar"><div id="p1Hp" class="hp-fill"></div></div>
     </div>
-    <div class="fighter-info right">
-      <div class="name">RIVAL SHADOW</div>
-      <div class="bar-box"><div id="eHealthBar" class="health-fill"></div></div>
+    <div class="fighter-box enemy">
+      <div class="name">VINOTH ⚔️</div>
+      <div class="hp-bar"><div id="p2Hp" class="hp-fill"></div></div>
     </div>
   </div>
 
-  <!-- Player Ninja -->
-  <div id="player" class="warrior">
-    <div class="shadow-head"></div>
-    <div class="shadow-body"></div>
-  </div>
+  <div id="announcer">ROUND 1... FIGHT!</div>
+  <canvas id="stage"></canvas>
 
-  <!-- Enemy Ninja -->
-  <div id="enemy" class="warrior">
-    <div class="shadow-head"></div>
-    <div class="shadow-body"></div>
-  </div>
-
-  <div class="ground"></div>
-</div>
-
-<div class="controls">
-  <div class="btn-row">
-    <button class="ctrl-btn" onclick="movePlayer(-15)">◀</button>
-    <button class="ctrl-btn" onclick="movePlayer(15)">▶</button>
-  </div>
-  <div class="btn-row">
-    <button class="ctrl-btn" onclick="playerAttack('punch')" style="border-color:#00ffff;">👊</button>
-    <button class="ctrl-btn" onclick="playerAttack('kick')" style="border-color:#ff0055;">🦶</button>
+  <div class="controls-layer">
+    <div class="dpad">
+      <div class="btn btn-blue" ontouchstart="keys.left=true" ontouchend="keys.left=false">◀</div>
+      <div class="btn btn-blue" ontouchstart="keys.right=true" ontouchend="keys.right=false">▶</div>
+      <div class="btn btn-blue" ontouchstart="doJump()">▲</div>
+    </div>
+    <div class="attack-pad">
+      <div class="btn" ontouchstart="doAttack('punch')">👊</div>
+      <div class="btn" ontouchstart="doAttack('kick')">🦶</div>
+      <div class="btn" ontouchstart="doAttack('slash')">🗡️</div>
+    </div>
   </div>
 </div>
-
-<button class="restart-btn" onclick="resetGame()">Restart Battle 🔄</button>
 
 <script>
-// Sound FX via Web Audio API
+// Canvas Engine Setup
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Sound Synthesizer
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playSound(type) {
-  if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  
-  if (type === 'punch') {
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+
+  if (type === 'hit') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(160, audioCtx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.1);
-    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.1);
-  } else if (type === 'kick') {
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.15);
-    gain.gain.setValueAtTime(0.7, audioCtx.currentTime);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  } else if (type === 'slash') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.15);
-  } else if (type === 'win') {
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-    osc.frequency.setValueAtTime(450, audioCtx.currentTime + 0.1);
-    osc.frequency.setValueAtTime(600, audioCtx.currentTime + 0.2);
-    gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.4);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
   }
 }
 
-let pPos = 40;
-let ePos = 320;
-let pHealth = 100;
-let eHealth = 100;
-let isGameOver = false;
+// Game State
+let keys = { left: false, right: false };
+let gameOver = false;
 
-const playerEl = document.getElementById('player');
-const enemyEl = document.getElementById('enemy');
-const msgEl = document.getElementById('statusMsg');
+const p1 = { x: 100, y: 0, vx: 0, vy: 0, hp: 100, state: 'idle', color: '#00ffff', isGrounded: true };
+const p2 = { x: 500, y: 0, vx: 0, vy: 0, hp: 100, state: 'idle', color: '#ff0055', isGrounded: true };
 
-function updatePositions() {
-  playerEl.style.left = pPos + 'px';
-  enemyEl.style.right = (450 - ePos - 50) + 'px';
-}
-updatePositions();
+const gravity = 0.8;
+const floorY = canvas.height - 100;
 
-function movePlayer(dir) {
-  if (isGameOver) return;
-  pPos = Math.max(10, Math.min(ePos - 45, pPos + dir));
-  updatePositions();
+function doJump() {
+  if (p1.isGrounded && !gameOver) {
+    p1.vy = -16;
+    p1.isGrounded = false;
+  }
 }
 
-function playerAttack(type) {
-  if (isGameOver) return;
-  
-  playSound(type);
-  playerEl.classList.add(type === 'punch' ? 'punch-anim' : 'kick-anim');
-  setTimeout(() => playerEl.classList.remove('punch-anim', 'kick-anim'), 180);
+function doAttack(type) {
+  if (gameOver) return;
+  p1.state = type;
+  playSound(type === 'slash' ? 'slash' : 'hit');
 
-  // Distance check for hit
-  let distance = ePos - pPos;
-  if (distance < 65) {
-    let dmg = type === 'punch' ? 12 : 18;
-    eHealth = Math.max(0, eHealth - dmg);
-    document.getElementById('eHealthBar').style.width = eHealth + '%';
-    
-    if (eHealth <= 0) {
-      isGameOver = true;
-      msgEl.textContent = "🏆 Flawless Victory! You Won!";
-      playSound('win');
-      return;
+  // Hit Detection
+  let dist = Math.abs(p1.x - p2.x);
+  if (dist < 110) {
+    let dmg = type === 'slash' ? 18 : (type === 'kick' ? 14 : 10);
+    p2.hp = Math.max(0, p2.hp - dmg);
+    document.getElementById('p2Hp').style.width = p2.hp + '%';
+
+    if (p2.hp <= 0) {
+      gameOver = true;
+      document.getElementById('announcer').textContent = "🏆 SASMITHA WINS!";
     }
   }
 
-  // Enemy counter response
-  setTimeout(enemyAI, 300);
+  setTimeout(() => { if (!gameOver) p1.state = 'idle'; }, 250);
 }
 
-function enemyAI() {
-  if (isGameOver) return;
-  
-  let distance = ePos - pPos;
-  if (distance > 55) {
-    ePos -= 15; // Move closer
-    updatePositions();
+// AI Engine for Vinoth
+setInterval(() => {
+  if (gameOver) return;
+  let dist = p2.x - p1.x;
+  if (dist > 90) {
+    p2.x -= 3;
   } else {
-    // Enemy attacks
-    playSound('punch');
-    enemyEl.classList.add('punch-anim');
-    setTimeout(() => enemyEl.classList.remove('punch-anim'), 180);
+    // Enemy Attack
+    p2.state = 'punch';
+    playSound('hit');
+    p1.hp = Math.max(0, p1.hp - 8);
+    document.getElementById('p1Hp').style.width = p1.hp + '%';
 
-    pHealth = Math.max(0, pHealth - 12);
-    document.getElementById('pHealthBar').style.width = pHealth + '%';
-
-    if (pHealth <= 0) {
-      isGameOver = true;
-      msgEl.textContent = "💀 Defeat! Rival Shadow Overpowered You!";
+    if (p1.hp <= 0) {
+      gameOver = true;
+      document.getElementById('announcer').textContent = "💀 VINOTH WINS!";
     }
+    setTimeout(() => { p2.state = 'idle'; }, 200);
   }
+}, 300);
+
+// Main Game Loop
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Background Arena
+  let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  grad.addColorStop(0, '#0a0210'); grad.addColorStop(1, '#2d0415');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Ground Floor
+  const currentFloorY = canvas.height - 100;
+  ctx.fillStyle = '#080204'; ctx.fillRect(0, currentFloorY, canvas.width, 100);
+  ctx.fillStyle = '#ff0055'; ctx.fillRect(0, currentFloorY, canvas.width, 4);
+
+  // Player Controls Logic
+  if (!gameOver) {
+    if (keys.left) p1.x = Math.max(40, p1.x - 6);
+    if (keys.right) p1.x = Math.min(p2.x - 50, p1.x + 6);
+  }
+
+  // Physics Update
+  p1.y += p1.vy; p1.vy += gravity;
+  if (p1.y >= 0) { p1.y = 0; p1.vy = 0; p1.isGrounded = true; }
+
+  // Draw Character Silhouette (Canvas Drawing)
+  drawNinja(p1, p1.x, currentFloorY + p1.y, true);
+  drawNinja(p2, p2.x, currentFloorY + p2.y, false);
+
+  requestAnimationFrame(loop);
 }
 
-function resetGame() {
-  pPos = 40;
-  ePos = 320;
-  pHealth = 100;
-  eHealth = 100;
-  isGameOver = false;
-  document.getElementById('pHealthBar').style.width = '100%';
-  document.getElementById('eHealthBar').style.width = '100%';
-  msgEl.textContent = "Fight! Defeat the Shadow Rival!";
-  updatePositions();
+function drawNinja(char, x, y, isPlayer) {
+  ctx.save();
+  ctx.translate(x, y);
+  if (!isPlayer) ctx.scale(-1, 1);
+
+  // Glow Effect
+  ctx.strokeStyle = char.color;
+  ctx.shadowColor = char.color;
+  ctx.shadowBlur = 12;
+  ctx.lineWidth = 3;
+  ctx.fillStyle = '#000';
+
+  // Head
+  ctx.beginPath(); ctx.arc(0, -110, 15, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  // Body
+  ctx.beginPath(); ctx.rect(-12, -95, 24, 50); ctx.fill(); ctx.stroke();
+  // Legs
+  ctx.beginPath(); ctx.moveTo(-8, -45); ctx.lineTo(-15, 0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(8, -45); ctx.lineTo(15, 0); ctx.stroke();
+
+  // Arms Animation States
+  if (char.state === 'punch') {
+    ctx.beginPath(); ctx.moveTo(10, -80); ctx.lineTo(35, -80); ctx.stroke(); // Punch
+  } else if (char.state === 'kick') {
+    ctx.beginPath(); ctx.moveTo(8, -45); ctx.lineTo(35, -45); ctx.stroke(); // Kick
+  } else if (char.state === 'slash') {
+    ctx.beginPath(); ctx.moveTo(10, -80); ctx.lineTo(40, -110); ctx.stroke(); // Sword Slash
+  } else {
+    ctx.beginPath(); ctx.moveTo(-10, -80); ctx.lineTo(-20, -50); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(10, -80); ctx.lineTo(20, -50); ctx.stroke();
+  }
+
+  ctx.restore();
 }
+
+loop();
 </script>
 
 </body>
