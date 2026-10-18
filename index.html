@@ -3,202 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secret Vault Login 💖</title>
+<title>System Authentication Portal 🛡️</title>
 <style>
-* { box-sizing: border-box; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; user-select: none; }
 body {
-  margin: 0;
+  background-color: #0b0f19;
+  color: #f3f4f6;
   height: 100vh;
-  background: linear-gradient(135deg, #0d021a, #2b0626, #12020f);
-  color: #fff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  position: relative;
 }
 
-.login-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
-  border: 2px solid rgba(255, 51, 153, 0.3);
-  border-radius: 25px;
-  padding: 35px 25px;
-  width: 90%;
-  max-width: 380px;
-  text-align: center;
-  box-shadow: 0 0 40px rgba(255, 0, 128, 0.3);
+/* Background Matrix/Grid Tech Effect */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 1;
+}
+
+.login-wrapper {
   position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.1);
 }
 
-.vault-icon {
-  font-size: 55px;
-  margin-bottom: 10px;
-  animation: float 2.5s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.brand-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
 }
 
 h2 {
-  color: #ff3399;
-  margin-bottom: 5px;
   font-size: 24px;
-  text-shadow: 0 0 10px rgba(255, 51, 153, 0.5);
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
 }
 
-p {
-  color: #ffb3d9;
-  font-size: 13px;
-  margin-bottom: 25px;
+p.subtitle {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 30px;
 }
 
 .input-group {
-  position: relative;
   margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #d1d5db;
+  margin-bottom: 8px;
 }
 
 input {
   width: 100%;
-  padding: 14px 20px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(255, 51, 153, 0.4);
-  border-radius: 15px;
+  padding: 14px 16px;
+  background: rgba(31, 41, 55, 0.8);
+  border: 1px solid #374151;
+  border-radius: 10px;
   color: #fff;
-  font-size: 16px;
+  font-size: 15px;
   outline: none;
-  transition: 0.3s;
-  text-align: center;
+  transition: all 0.3s ease;
 }
 
 input:focus {
-  border-color: #ff3399;
-  box-shadow: 0 0 15px rgba(255, 51, 153, 0.5);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: rgba(31, 41, 55, 1);
 }
 
-button {
+.btn-submit {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #ff3399, #cc0066);
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   border: none;
-  border-radius: 15px;
-  color: white;
+  border-radius: 10px;
+  color: #fff;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(255, 51, 153, 0.4);
-  transition: 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  margin-top: 10px;
 }
 
-button:active {
-  transform: scale(0.96);
+.btn-submit:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
 
-#errorMsg {
-  color: #ff4d4d;
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+#statusText {
   font-size: 13px;
+  color: #ef4444;
   margin-top: 15px;
   min-height: 18px;
-  font-weight: bold;
-}
-
-/* Success Dashboard Style */
-.dashboard {
-  display: none;
   text-align: center;
-  animation: fadeIn 0.5s ease-in-out;
+  font-weight: 500;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
+/* Success Dashboard / Viral Matrix Reveal */
+.dashboard-container {
+  display: none;
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 500px;
+  padding: 40px;
+  background: rgba(10, 15, 25, 0.95);
+  border: 1px solid #10b981;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(16, 185, 129, 0.3);
+  text-align: center;
+  animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.8); }
   to { opacity: 1; transform: scale(1); }
 }
 
-.success-heart {
-  font-size: 70px;
-  animation: pulse 1s infinite;
+.success-badge {
+  width: 70px;
+  height: 70px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid #10b981;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
 }
 
-@keyframes pulse {
-  50% { transform: scale(1.2); }
+.dashboard-container h1 {
+  font-size: 26px;
+  color: #10b981;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.dashboard-container p {
+  color: #9ca3af;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.terminal-box {
+  background: #000;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: left;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  color: #10b981;
+  margin-bottom: 20px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.btn-lock {
+  padding: 12px 30px;
+  background: transparent;
+  border: 1px solid #4b5563;
+  color: #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-lock:hover {
+  background: #374151;
+  color: #fff;
 }
 </style>
 </head>
 <body>
 
-<div class="login-card" id="loginBox">
-  <div class="vault-icon">🔐</div>
-  <h2>Secret Vault</h2>
-  <p>Enter the passcode to open Sasmitha's Heart</p>
+<div class="bg-grid"></div>
+
+<!-- Login Form Box -->
+<div class="login-wrapper" id="loginCard">
+  <div class="brand-icon">⚡</div>
+  <h2>System Access</h2>
+  <p class="subtitle">Enter your credentials to initialize connection</p>
   
   <div class="input-group">
-    <input type="password" id="passcode" placeholder="Enter Secret Code" maxlength="6">
+    <label>Email Address</label>
+    <input type="email" id="emailInput" placeholder="name@domain.com" autocomplete="off">
   </div>
-  
-  <button onclick="checkLogin()">Unlock Vault 🔓</button>
-  <div id="errorMsg"></div>
+
+  <div class="input-group">
+    <label>Security Password</label>
+    <input type="password" id="passInput" placeholder="••••••••••••">
+  </div>
+
+  <button class="btn-submit" onclick="authenticate()">Authenticate ➔</button>
+  <div id="statusText"></div>
 </div>
 
-<!-- Welcome Dashboard (Hidden initially) -->
-<div class="login-card dashboard" id="dashBox">
-  <div class="success-heart">💖</div>
-  <h2 style="color:#00ffff; text-shadow: 0 0 10px #00ffff;">Access Granted!</h2>
-  <p style="color:#fff; font-size:15px; margin-top:15px;">
-    Welcome to the secret world, Sasmitha & Vinoth! ✨<br>
-    Your love story is safely locked in this digital vault forever. 🌹
-  </p>
-  <button onclick="lockVault()" style="margin-top:20px; background:linear-gradient(135deg, #00cccc, #006666);">Lock Again 🔒</button>
+<!-- Viral Success / Hacker Matrix Dashboard -->
+<div class="dashboard-container" id="dashCard">
+  <div class="success-badge">🛡️</div>
+  <h1>ACCESS GRANTED</h1>
+  <p>Secure tunnel established successfully. Node connection active with <span id="userDisplay" style="color:#fff; font-weight:650;"></span>.</p>
+  
+  <div class="terminal-box">
+    > Initializing secure protocol... [OK]<br>
+    > Bypassing firewall node #7... [SUCCESS]<br>
+    > Loading high-speed neural stream... [READY]
+  </div>
+
+  <button class="btn-lock" onclick="resetSession()">Terminate Session ⏏</button>
 </div>
 
 <script>
-function checkLogin() {
-  const code = document.getElementById('passcode').value;
-  const errorMsg = document.getElementById('errorMsg');
-  
-  // මෙන්න මෙතන ඔයාට ඕන පාස්වර්ඩ් එක දාගන්න පුළුවන් (උදාහරණයක් විදිහට 1432)
-  if (code === "1432" || code === "sasmitha") {
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('dashBox').style.display = 'block';
-    
-    // Celebration effect
-    for (let i = 0; i < 30; i++) {
-      createHeart();
-    }
-  } else {
-    errorMsg.textContent = "❌ Wrong Passcode! Hint: Try 1432";
-    // Shake effect
-    const card = document.getElementById('loginBox');
-    card.style.transform = "translateX(10px)";
-    setTimeout(() => card.style.transform = "translateX(-10px)", 100);
-    setTimeout(() => card.style.transform = "translateX(0)", 200);
+function authenticate() {
+  const email = document.getElementById('emailInput').value.trim();
+  const pass = document.getElementById('passInput').value.trim();
+  const status = document.getElementById('statusText');
+
+  if (!email || !pass) {
+    status.style.color = "#ef4444";
+    status.textContent = "⚠️ Error: All fields are required.";
+    shakeCard();
+    return;
   }
-}
 
-function lockVault() {
-  document.getElementById('passcode').value = "";
-  document.getElementById('errorMsg').textContent = "";
-  document.getElementById('dashBox').style.display = 'none';
-  document.getElementById('loginBox').style.display = 'block';
-}
-
-function createHeart() {
-  const h = document.createElement('div');
-  h.textContent = Math.random() > 0.5 ? '❤️' : '✨';
-  h.style.position = 'fixed';
-  h.style.left = Math.random() * 100 + 'vw';
-  h.style.top = '-30px';
-  h.style.fontSize = '22px';
-  h.style.transition = 'transform 3s linear';
-  document.body.appendChild(h);
+  // Simulate verification process for viral effect
+  status.style.color = "#3b82f6";
+  status.textContent = "Encrypting credentials & connecting to server...";
 
   setTimeout(() => {
-    h.style.transform = `translateY(110vh) rotate(360deg)`;
-  }, 50);
+    document.getElementById('loginCard').style.display = 'none';
+    document.getElementById('dashCard').style.display = 'block';
+    document.getElementById('userDisplay').textContent = email;
+  }, 1200);
+}
 
-  setTimeout(() => h.remove(), 3200);
+function shakeCard() {
+  const card = document.getElementById('loginCard');
+  card.style.transform = "translateX(8px)";
+  setTimeout(() => card.style.transform = "translateX(-8px)", 80);
+  setTimeout(() => card.style.transform = "translateX(6px)", 160);
+  setTimeout(() => card.style.transform = "translateX(0)", 240);
+}
+
+function resetSession() {
+  document.getElementById('emailInput').value = "";
+  document.getElementById('passInput').value = "";
+  document.getElementById('statusText').textContent = "";
+  document.getElementById('dashCard').style.display = 'none';
+  document.getElementById('loginCard').style.display = 'block';
 }
 </script>
 
