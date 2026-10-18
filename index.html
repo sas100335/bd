@@ -3,288 +3,259 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System Authentication Portal 🛡️</title>
+<title>Creative Portal with Logout Animation 🚪✨</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
 body {
-  background-color: #0b0f19;
-  color: #f3f4f6;
+  background: #0f172a;
+  color: #fff;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  position: relative;
 }
 
-/* Background Matrix/Grid Tech Effect */
-.bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 30px 30px;
-  z-index: 1;
-}
-
-.login-wrapper {
+/* Login Card Container */
+.login-card {
   position: relative;
-  z-index: 10;
   width: 100%;
   max-width: 400px;
   padding: 40px 30px;
-  background: rgba(17, 24, 39, 0.85);
-  backdrop-filter: blur(20px);
+  background: #1e293b;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(59, 130, 246, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  z-index: 10;
+  transition: all 0.4s ease;
 }
 
-.brand-icon {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #ffffff;
+.login-card h2 {
+  font-size: 26px;
   margin-bottom: 8px;
+  color: #f8fafc;
 }
 
-p.subtitle {
+.login-card p {
   font-size: 14px;
-  color: #9ca3af;
+  color: #94a3b8;
   margin-bottom: 30px;
 }
 
-.input-group {
+.input-box {
+  position: relative;
   margin-bottom: 20px;
   text-align: left;
 }
 
-label {
+.input-box label {
   display: block;
   font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 6px;
   font-weight: 500;
-  color: #d1d5db;
-  margin-bottom: 8px;
 }
 
-input {
+.input-box input {
   width: 100%;
   padding: 14px 16px;
-  background: rgba(31, 41, 55, 0.8);
-  border: 1px solid #374151;
+  background: #0f172a;
+  border: 1px solid #334155;
   border-radius: 10px;
   color: #fff;
   font-size: 15px;
   outline: none;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-  background: rgba(31, 41, 55, 1);
+.input-box input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
-.btn-submit {
+.btn-login {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: #6366f1;
   border: none;
   border-radius: 10px;
-  color: #fff;
+  color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  transition: 0.2s;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
   margin-top: 10px;
 }
 
-.btn-submit:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+.btn-login:hover {
+  background: #4f46e5;
 }
 
-.btn-submit:active {
+.btn-login:active {
   transform: scale(0.98);
 }
 
-#statusText {
-  font-size: 13px;
+#errorMsg {
   color: #ef4444;
+  font-size: 13px;
   margin-top: 15px;
   min-height: 18px;
-  text-align: center;
-  font-weight: 500;
 }
 
-/* Success Dashboard / Viral Matrix Reveal */
-.dashboard-container {
+/* Dashboard & Logout Animation Container */
+.dashboard {
   display: none;
   position: relative;
   z-index: 10;
   width: 90%;
-  max-width: 500px;
-  padding: 40px;
-  background: rgba(10, 15, 25, 0.95);
-  border: 1px solid #10b981;
+  max-width: 450px;
+  padding: 40px 30px;
+  background: #1e293b;
   border-radius: 20px;
-  box-shadow: 0 0 50px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
   text-align: center;
-  animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes scaleUp {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.success-badge {
-  width: 70px;
-  height: 70px;
-  background: rgba(16, 185, 129, 0.15);
-  border: 2px solid #10b981;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 32px;
-  margin: 0 auto 20px auto;
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
-}
-
-.dashboard-container h1 {
-  font-size: 26px;
+.dashboard h1 {
+  font-size: 24px;
   color: #10b981;
   margin-bottom: 10px;
-  letter-spacing: 1px;
 }
 
-.dashboard-container p {
-  color: #9ca3af;
-  font-size: 15px;
-  line-height: 1.6;
-  margin-bottom: 25px;
-}
-
-.terminal-box {
-  background: #000;
-  border: 1px solid #1f2937;
-  border-radius: 8px;
-  padding: 15px;
-  text-align: left;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 13px;
-  color: #10b981;
-  margin-bottom: 20px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-}
-
-.btn-lock {
-  padding: 12px 30px;
-  background: transparent;
-  border: 1px solid #4b5563;
-  color: #d1d5db;
-  border-radius: 8px;
+.dashboard p {
+  color: #94a3b8;
   font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s;
+  margin-bottom: 30px;
 }
 
-.btn-lock:hover {
-  background: #374151;
-  color: #fff;
+/* --- THE CREATIVE LOGOUT BUTTON ANIMATION (As requested from photo) --- */
+.logoutButton {
+  background: #252839;
+  color: #f4f7ff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logoutButton:hover {
+  background: #31354d;
+}
+
+.logoutButton .doorway {
+  position: relative;
+  width: 20px;
+  height: 24px;
+  fill: #1f2335;
+  transition: 0.3s;
+}
+
+.logoutButton .man {
+  position: absolute;
+  left: 12px;
+  bottom: 14px;
+  width: 12px;
+  height: 24px;
+  background: #6366f1;
+  border-radius: 4px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animation trigger class */
+.logoutButton.logging-out .man {
+  transform: translateX(35px) scaleY(0.9);
+}
+
+.logoutButton.logging-out {
+  padding-left: 45px;
+  background: #ef4444;
 }
 </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-
-<!-- Login Form Box -->
-<div class="login-wrapper" id="loginCard">
-  <div class="brand-icon">⚡</div>
-  <h2>System Access</h2>
-  <p class="subtitle">Enter your credentials to initialize connection</p>
+<!-- Login Form -->
+<div class="login-card" id="loginBox">
+  <h2>Welcome Back</h2>
+  <p>Enter your account credentials to proceed</p>
   
-  <div class="input-group">
+  <div class="input-box">
     <label>Email Address</label>
-    <input type="email" id="emailInput" placeholder="name@domain.com" autocomplete="off">
+    <input type="email" id="email" placeholder="name@example.com" autocomplete="off">
   </div>
 
-  <div class="input-group">
-    <label>Security Password</label>
-    <input type="password" id="passInput" placeholder="••••••••••••">
+  <div class="input-box">
+    <label>Password</label>
+    <input type="password" id="password" placeholder="••••••••">
   </div>
 
-  <button class="btn-submit" onclick="authenticate()">Authenticate ➔</button>
-  <div id="statusText"></div>
+  <button class="btn-login" onclick="login()">Log In ➔</button>
+  <div id="errorMsg"></div>
 </div>
 
-<!-- Viral Success / Hacker Matrix Dashboard -->
-<div class="dashboard-container" id="dashCard">
-  <div class="success-badge">🛡️</div>
-  <h1>ACCESS GRANTED</h1>
-  <p>Secure tunnel established successfully. Node connection active with <span id="userDisplay" style="color:#fff; font-weight:650;"></span>.</p>
+<!-- Logged in Dashboard with Creative Logout Button -->
+<div class="dashboard" id="dashboardBox">
+  <h1>Dashboard Active ✨</h1>
+  <p>You have successfully authenticated into the secure portal.</p>
   
-  <div class="terminal-box">
-    > Initializing secure protocol... [OK]<br>
-    > Bypassing firewall node #7... [SUCCESS]<br>
-    > Loading high-speed neural stream... [READY]
-  </div>
-
-  <button class="btn-lock" onclick="resetSession()">Terminate Session ⏏</button>
+  <!-- The Man Walking Out Logout Button -->
+  <button class="logoutButton" id="logoutBtn" onclick="logoutAnimation()">
+    <span class="button-text">Log Out</span>
+    <svg class="doorway" viewBox="0 0 24 24">
+      <path d="M19,2H5C3.89,2 3,2.89 3,4V20C3,21.11 3.89,22 5,22H19C20.11,22 21,21.11 21,20V4C21,289 20.11,2 19,2M19,20H5V4H19V20Z"/>
+    </svg>
+    <div class="man" id="walkingMan"></div>
+  </button>
 </div>
 
 <script>
-function authenticate() {
-  const email = document.getElementById('emailInput').value.trim();
-  const pass = document.getElementById('passInput').value.trim();
-  const status = document.getElementById('statusText');
+function login() {
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
 
   if (!email || !pass) {
-    status.style.color = "#ef4444";
-    status.textContent = "⚠️ Error: All fields are required.";
+    errorMsg.textContent = "⚠️ Please fill in all fields.";
     shakeCard();
     return;
   }
 
-  // Simulate verification process for viral effect
-  status.style.color = "#3b82f6";
-  status.textContent = "Encrypting credentials & connecting to server...";
-
-  setTimeout(() => {
-    document.getElementById('loginCard').style.display = 'none';
-    document.getElementById('dashCard').style.display = 'block';
-    document.getElementById('userDisplay').textContent = email;
-  }, 1200);
+  errorMsg.textContent = "";
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('dashboardBox').style.display = 'block';
 }
 
 function shakeCard() {
-  const card = document.getElementById('loginCard');
+  const card = document.getElementById('loginBox');
   card.style.transform = "translateX(8px)";
   setTimeout(() => card.style.transform = "translateX(-8px)", 80);
   setTimeout(() => card.style.transform = "translateX(6px)", 160);
   setTimeout(() => card.style.transform = "translateX(0)", 240);
 }
 
-function resetSession() {
-  document.getElementById('emailInput').value = "";
-  document.getElementById('passInput').value = "";
-  document.getElementById('statusText').textContent = "";
-  document.getElementById('dashCard').style.display = 'none';
-  document.getElementById('loginCard').style.display = 'block';
+function logoutAnimation() {
+  const btn = document.getElementById('logoutBtn');
+  btn.classList.add('logging-out');
+
+  // After the man walks out animation finishes, reset back to login page
+  setTimeout(() => {
+    btn.classList.remove('logging-out');
+    document.getElementById('email').value = "";
+    document.getElementById('password').value = "";
+    document.getElementById('dashboardBox').style.display = 'none';
+    document.getElementById('loginBox').style.display = 'block';
+  }, 900);
 }
 </script>
 
