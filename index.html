@@ -2,259 +2,250 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creative Portal with Logout Animation 🚪✨</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Ultra Creative Neural Portal 🚀</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
-body {
-  background: #0f172a;
-  color: #fff;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; user-select: none; }
+body, html { width: 100%; height: 100%; overflow: hidden; background: #030712; color: #fff; display: flex; justify-content: center; align-items: center; }
 
-/* Login Card Container */
-.login-card {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  padding: 40px 30px;
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+/* 3D Canvas Background */
+#particleCanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+
+/* Main Glass Card */
+.portal-card {
+  position: relative; z-index: 10;
+  width: 90%; max-width: 420px;
+  padding: 40px 32px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   text-align: center;
-  z-index: 10;
-  transition: all 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
-.login-card h2 {
-  font-size: 26px;
-  margin-bottom: 8px;
-  color: #f8fafc;
+.avatar-ring {
+  width: 70px; height: 70px; margin: 0 auto 20px auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+  padding: 3px;
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+  animation: pulseGlow 3s infinite alternate;
+}
+.avatar-inner {
+  width: 100%; height: 100%; background: #0f172a; border-radius: 50%;
+  display: flex; justify-content: center; align-items: center; font-size: 28px;
 }
 
-.login-card p {
-  font-size: 14px;
-  color: #94a3b8;
-  margin-bottom: 30px;
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+  100% { box-shadow: 0 0 35px rgba(236, 72, 153, 0.7); }
 }
 
-.input-box {
-  position: relative;
-  margin-bottom: 20px;
-  text-align: left;
+h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+p.desc { font-size: 13px; color: #94a3b8; margin-bottom: 30px; }
+
+.input-field {
+  position: relative; margin-bottom: 20px; text-align: left;
+}
+.input-field label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 8px; }
+.input-field input {
+  width: 100%; padding: 15px 18px; background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px;
+  color: #fff; font-size: 15px; outline: none; transition: 0.3s ease;
+}
+.input-field input:focus {
+  border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); background: rgba(30, 41, 59, 0.9);
 }
 
-.input-box label {
-  display: block;
-  font-size: 13px;
-  color: #cbd5e1;
-  margin-bottom: 6px;
-  font-weight: 500;
-}
-
-.input-box input {
-  width: 100%;
-  padding: 14px 16px;
-  background: #0f172a;
-  border: 1px solid #334155;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 15px;
-  outline: none;
-  transition: 0.3s;
-}
-
-.input-box input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-}
-
-.btn-login {
-  width: 100%;
-  padding: 14px;
-  background: #6366f1;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+.btn-primary {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border: none; border-radius: 14px;
+  color: #fff; font-size: 16px; font-weight: 600;
+  cursor: pointer; transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
   margin-top: 10px;
 }
+.btn-primary:active { transform: scale(0.97); }
 
-.btn-login:hover {
-  background: #4f46e5;
-}
+#errorMsg { color: #f43f5e; font-size: 13px; margin-top: 15px; min-height: 20px; font-weight: 500; }
 
-.btn-login:active {
-  transform: scale(0.98);
-}
+/* Dashboard & Logout Area */
+.dashboard-card { display: none; }
 
-#errorMsg {
-  color: #ef4444;
-  font-size: 13px;
-  margin-top: 15px;
-  min-height: 18px;
-}
-
-/* Dashboard & Logout Animation Container */
-.dashboard {
-  display: none;
+.logout-anim-btn {
   position: relative;
-  z-index: 10;
-  width: 90%;
-  max-width: 450px;
-  padding: 40px 30px;
-  background: #1e293b;
-  border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-  text-align: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 16px 36px; background: #1e1b4b;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 16px; color: #fff; font-size: 16px; font-weight: 600;
+  cursor: pointer; overflow: hidden; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.logout-anim-btn:hover { background: #2e1065; border-color: #a855f7; }
+
+.door-icon {
+  width: 22px; height: 26px; fill: none; stroke: #a855f7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  margin-left: 12px; transition: 0.3s;
 }
 
-.dashboard h1 {
-  font-size: 24px;
-  color: #10b981;
-  margin-bottom: 10px;
+.walking-man {
+  position: absolute; right: 28px; width: 10px; height: 18px;
+  background: #ec4899; border-radius: 3px; opacity: 0;
+  transition: transform 0.6s ease-in-out, opacity 0.3s ease;
 }
 
-.dashboard p {
-  color: #94a3b8;
-  font-size: 14px;
-  margin-bottom: 30px;
+.logout-anim-btn.animating .walking-man {
+  opacity: 1; transform: translateX(45px);
 }
-
-/* --- THE CREATIVE LOGOUT BUTTON ANIMATION (As requested from photo) --- */
-.logoutButton {
-  background: #252839;
-  color: #f4f7ff;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.logoutButton:hover {
-  background: #31354d;
-}
-
-.logoutButton .doorway {
-  position: relative;
-  width: 20px;
-  height: 24px;
-  fill: #1f2335;
-  transition: 0.3s;
-}
-
-.logoutButton .man {
-  position: absolute;
-  left: 12px;
-  bottom: 14px;
-  width: 12px;
-  height: 24px;
-  background: #6366f1;
-  border-radius: 4px;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Animation trigger class */
-.logoutButton.logging-out .man {
-  transform: translateX(35px) scaleY(0.9);
-}
-
-.logoutButton.logging-out {
-  padding-left: 45px;
-  background: #ef4444;
+.logout-anim-btn.animating {
+  background: #e11d48; border-color: #f43f5e; padding-right: 60px;
 }
 </style>
 </head>
 <body>
 
-<!-- Login Form -->
-<div class="login-card" id="loginBox">
-  <h2>Welcome Back</h2>
-  <p>Enter your account credentials to proceed</p>
-  
-  <div class="input-box">
+<canvas id="particleCanvas"></canvas>
+
+<!-- Login Interface -->
+<div class="portal-card" id="loginCard">
+  <div class="avatar-ring">
+    <div class="avatar-inner">⚡</div>
+  </div>
+  <h2>Neural Portal</h2>
+  <p class="desc">Enter authorized email & passcode to establish stream</p>
+
+  <div class="input-field">
     <label>Email Address</label>
-    <input type="email" id="email" placeholder="name@example.com" autocomplete="off">
+    <input type="email" id="email" placeholder="alex@nexus.io" autocomplete="off">
   </div>
 
-  <div class="input-box">
-    <label>Password</label>
+  <div class="input-field">
+    <label>Passcode</label>
     <input type="password" id="password" placeholder="••••••••">
   </div>
 
-  <button class="btn-login" onclick="login()">Log In ➔</button>
+  <button class="btn-primary" onclick="handleLogin()">Initialize Access ➔</button>
   <div id="errorMsg"></div>
 </div>
 
-<!-- Logged in Dashboard with Creative Logout Button -->
-<div class="dashboard" id="dashboardBox">
-  <h1>Dashboard Active ✨</h1>
-  <p>You have successfully authenticated into the secure portal.</p>
-  
-  <!-- The Man Walking Out Logout Button -->
-  <button class="logoutButton" id="logoutBtn" onclick="logoutAnimation()">
-    <span class="button-text">Log Out</span>
-    <svg class="doorway" viewBox="0 0 24 24">
-      <path d="M19,2H5C3.89,2 3,2.89 3,4V20C3,21.11 3.89,22 5,22H19C20.11,22 21,21.11 21,20V4C21,289 20.11,2 19,2M19,20H5V4H19V20Z"/>
+<!-- Logged In Creative Dashboard -->
+<div class="portal-card dashboard-card" id="dashCard">
+  <div class="avatar-ring" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+    <div class="avatar-inner">🛡️</div>
+  </div>
+  <h2 style="color:#10b981;">Stream Connected</h2>
+  <p class="desc" style="margin-bottom:35px;">Session token active. Click below to experience the animated logout sequence.</p>
+
+  <button class="logout-anim-btn" id="logoutBtn" onclick="handleLogout()">
+    <span id="btnText">Sign Out</span>
+    <svg class="door-icon" viewBox="0 0 24 24">
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
     </svg>
-    <div class="man" id="walkingMan"></div>
+    <div class="walking-man"></div>
   </button>
 </div>
 
 <script>
-function login() {
+// Web Audio Synthesizer Sound FX
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playSFX(freq, duration, type = 'sine') {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(); osc.stop(audioCtx.currentTime + duration);
+}
+
+// Interactive 3D Canvas Background
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let width, height, particles = [];
+
+function initCanvas() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  particles = [];
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8,
+      size: Math.random() * 2 + 1
+    });
+  }
+}
+window.addEventListener('resize', initCanvas);
+initCanvas();
+
+function drawCanvas() {
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = 'rgba(168, 85, 247, 0.4)';
+  ctx.strokeStyle = 'rgba(99, 102, 241, 0.08)';
+
+  particles.forEach((p, idx) => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > width) p.vx *= -1;
+    if (p.y < 0 || p.y > height) p.vy *= -1;
+
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+
+    for (let j = idx + 1; j < particles.length; j++) {
+      let p2 = particles[j];
+      let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+      if (dist < 120) {
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(drawCanvas);
+}
+drawCanvas();
+
+// Login & Logout Handler Logic
+function handleLogin() {
   const email = document.getElementById('email').value.trim();
   const pass = document.getElementById('password').value.trim();
   const errorMsg = document.getElementById('errorMsg');
 
   if (!email || !pass) {
-    errorMsg.textContent = "⚠️ Please fill in all fields.";
-    shakeCard();
+    playSFX(150, 0.2, 'sawtooth');
+    errorMsg.textContent = "⚠️ Please fill all input fields.";
+    const card = document.getElementById('loginCard');
+    card.style.transform = "translateX(10px)";
+    setTimeout(() => card.style.transform = "translateX(-10px)", 80);
+    setTimeout(() => card.style.transform = "translateX(0)", 160);
     return;
   }
 
+  playSFX(600, 0.25);
   errorMsg.textContent = "";
-  document.getElementById('loginBox').style.display = 'none';
-  document.getElementById('dashboardBox').style.display = 'block';
+  document.getElementById('loginCard').style.display = 'none';
+  document.getElementById('dashCard').style.display = 'block';
 }
 
-function shakeCard() {
-  const card = document.getElementById('loginBox');
-  card.style.transform = "translateX(8px)";
-  setTimeout(() => card.style.transform = "translateX(-8px)", 80);
-  setTimeout(() => card.style.transform = "translateX(6px)", 160);
-  setTimeout(() => card.style.transform = "translateX(0)", 240);
-}
-
-function logoutAnimation() {
+function handleLogout() {
+  playSFX(300, 0.3, 'triangle');
   const btn = document.getElementById('logoutBtn');
-  btn.classList.add('logging-out');
+  btn.classList.add('animating');
+  document.getElementById('btnText').textContent = "Signing Out...";
 
-  // After the man walks out animation finishes, reset back to login page
   setTimeout(() => {
-    btn.classList.remove('logging-out');
+    playSFX(180, 0.4);
+    btn.classList.remove('animating');
+    document.getElementById('btnText').textContent = "Sign Out";
     document.getElementById('email').value = "";
     document.getElementById('password').value = "";
-    document.getElementById('dashboardBox').style.display = 'none';
-    document.getElementById('loginBox').style.display = 'block';
+    document.getElementById('dashCard').style.display = 'none';
+    document.getElementById('loginCard').style.display = 'block';
   }, 900);
 }
 </script>
