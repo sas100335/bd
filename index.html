@@ -1,325 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frost Breakout ❄️</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #030712;
-            color: #38bdf8;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-        h1 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #38bdf8;
-            text-shadow: 0 0 15px #0284c7;
-        }
-        #game-container {
-            position: relative;
-            border: 3px solid #38bdf8;
-            border-radius: 10px;
-            box-shadow: 0 0 25px #0284c7;
-            background: #00050f;
-        }
-        canvas {
-            display: block;
-            border-radius: 8px;
-            touch-action: none;
-        }
-        .hint {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #7dd3fc;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shehara's Heart Match 💖</title>
+<style>
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #1b0028, #3d004d);
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  padding: 10px;
+  user-select: none;
+}
+h1 { color: #ff3399; font-size: 24px; margin: 5px 0; text-shadow: 0 0 10px #ff007f; }
+.info-bar {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 8px 15px;
+  display: inline-flex;
+  gap: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 51, 153, 0.4);
+  margin-bottom: 10px;
+}
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, 45px);
+  grid-template-rows: repeat(6, 45px);
+  gap: 5px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid #ff3399;
+  margin: 0 auto 15px auto;
+  box-shadow: 0 0 20px rgba(255, 51, 153, 0.4);
+}
+.cell {
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+.cell.selected {
+  background: rgba(255, 51, 153, 0.5);
+  transform: scale(1.1);
+  border: 2px solid #fff;
+}
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff3399, #cc0066);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 51, 153, 0.4);
+}
+button:active { transform: scale(0.95); }
+</style>
 </head>
 <body>
 
-    <h1>FROST BREAKOUT ❄️</h1>
-    <div id="game-container">
-        <canvas id="gameCanvas" width="360" height="520"></canvas>
-    </div>
-    <div class="hint">👈 / 👉 Drag Paddle to Break Bricks</div>
+<h1>👑 Shehara's Heart Match 💖</h1>
+<p style="font-size:13px; color:#ffb3d9; margin-top:0;">Match 3 or more same hearts!</p>
 
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
+<div class="info-bar">
+  <span>✨ Score: <span id="score">0</span></span>
+  <span>⏳ Moves: <span id="moves">20</span></span>
+</div>
 
-        // Web Audio API Sound System
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+<div class="board" id="board"></div>
 
-        function playSound(type) {
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+<button onclick="resetGame()">Restart Game 🔄</button>
 
-            if (type === 'hit') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.08);
-            } else if (type === 'paddle') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(500, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.1);
-            } else if (type === 'gameover') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(70, audioCtx.currentTime + 0.4);
-                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.4);
-            }
+<script>
+const width = 6;
+const height = 6;
+let score = 0;
+let moves = 20;
+let board = [];
+let selectedCell = null;
+
+// Different colored heart / gem symbols
+const hearts = ["❤️", "💖", "💙", "💜", "💛"];
+
+function createBoard() {
+  const boardElement = document.getElementById("board");
+  boardElement.innerHTML = "";
+  board = [];
+
+  for (let i = 0; i < width * height; i++) {
+    let randomHeart;
+    // Avoid initial matches on start
+    do {
+      randomHeart = hearts[Math.floor(Math.random() * hearts.length)];
+    } while (
+      (i >= 2 && board[i - 1] === randomHeart && board[i - 2] === randomHeart) ||
+      (i >= width && board[i - width] === randomHeart && board[i - width * 2] === randomHeart)
+    );
+
+    board.push(randomHeart);
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.dataset.id = i;
+    cell.textContent = randomHeart;
+    cell.addEventListener("click", handleCellClick);
+    boardElement.appendChild(cell);
+  }
+}
+
+function handleCellClick() {
+  if (moves <= 0) return;
+  const id = parseInt(this.dataset.id);
+
+  if (selectedCell === null) {
+    selectedCell = id;
+    this.classList.add("selected");
+  } else {
+    const prevCell = document.querySelector(`[data-id='${selectedCell}']`);
+    prevCell.classList.remove("selected");
+
+    // Check if adjacent
+    if (isAdjacent(selectedCell, id)) {
+      // Swap
+      let temp = board[selectedCell];
+      board[selectedCell] = board[id];
+      board[id] = temp;
+
+      updateBoardUI();
+
+      if (checkMatches()) {
+        moves--;
+        document.getElementById("moves").textContent = moves;
+        setTimeout(processMatches, 300);
+      } else {
+        // Swap back if no match
+        let temp = board[selectedCell];
+        board[selectedCell] = board[id];
+        board[id] = temp;
+        updateBoardUI();
+      }
+    }
+    selectedCell = null;
+  }
+}
+
+function isAdjacent(a, b) {
+  const rowA = Math.floor(a / width);
+  const colA = a % width;
+  const rowB = Math.floor(b / width);
+  const colB = b % width;
+  return (Math.abs(rowA - rowB) + Math.abs(colA - colB)) === 1;
+}
+
+function checkMatches() {
+  // Check rows and columns for matches of 3
+  for (let r = 0; r < height; r++) {
+    for (let c = 0; c < width - 2; c++) {
+      let idx = r * width + c;
+      if (board[idx] && board[idx] === board[idx + 1] && board[idx] === board[idx + 2]) return true;
+    }
+  }
+  for (let r = 0; r < height - 2; r++) {
+    for (let c = 0; c < width; c++) {
+      let idx = r * width + c;
+      if (board[idx] && board[idx] === board[idx + width] && board[idx] === board[idx + width * 2]) return true;
+    }
+  }
+  return false;
+}
+
+function processMatches() {
+  let matched = new Set();
+
+  // Find rows
+  for (let r = 0; r < height; r++) {
+    for (let c = 0; c < width - 2; c++) {
+      let idx = r * width + c;
+      if (board[idx] && board[idx] === board[idx + 1] && board[idx] === board[idx + 2]) {
+        matched.add(idx); matched.add(idx + 1); matched.add(idx + 2);
+      }
+    }
+  }
+  // Find columns
+  for (let r = 0; r < height - 2; r++) {
+    for (let c = 0; c < width; c++) {
+      let idx = r * width + c;
+      if (board[idx] && board[idx] === board[idx + width] && board[idx] === board[idx + width * 2]) {
+        matched.add(idx); matched.add(idx + width); matched.add(idx + width * 2);
+      }
+    }
+  }
+
+  if (matched.size > 0) {
+    score += matched.size * 10;
+    document.getElementById("score").textContent = score;
+
+    matched.forEach(idx => {
+      board[idx] = null;
+    });
+
+    updateBoardUI();
+    setTimeout(dropAndRefill, 300);
+  }
+}
+
+function dropAndRefill() {
+  for (let c = 0; c < width; c++) {
+    for (let r = height - 1; r >= 0; r--) {
+      let idx = r * width + c;
+      if (board[idx] === null) {
+        // Find above
+        let aboveR = r - 1;
+        while (aboveR >= 0 && board[aboveR * width + c] === null) {
+          aboveR--;
         }
-
-        // Game Variables
-        let score = 0;
-        let level = 1;
-        let lives = 3;
-        let gameOver = false;
-
-        // Paddle Properties
-        const paddleWidth = 75;
-        const paddleHeight = 12;
-        let paddleX = (canvas.width - paddleWidth) / 2;
-        let rightPressed = false;
-        let leftPressed = false;
-
-        // Ball Properties
-        let ballRadius = 7;
-        let x = canvas.width / 2;
-        let y = canvas.height - 45;
-        let dx = 3;
-        let dy = -3;
-
-        // Bricks Layout
-        const brickRowCount = 5;
-        const brickColumnCount = 6;
-        const brickWidth = 50;
-        const brickHeight = 18;
-        const brickPadding = 6;
-        const brickOffsetTop = 50;
-        const brickOffsetLeft = 14;
-
-        let bricks = [];
-        function initBricks() {
-            bricks = [];
-            for (let c = 0; c < brickColumnCount; c++) {
-                bricks[c] = [];
-                for (let r = 0; r < brickRowCount; r++) {
-                    bricks[c][r] = { x: 0, y: 0, status: 1 };
-                }
-            }
+        if (aboveR >= 0) {
+          board[idx] = board[aboveR * width + c];
+          board[aboveR * width + c] = null;
+        } else {
+          board[idx] = hearts[Math.floor(Math.random() * hearts.length)];
         }
-        initBricks();
+      }
+    }
+  }
+  updateBoardUI();
 
-        // Keyboard Controls
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowRight") rightPressed = true;
-            else if (e.key === "ArrowLeft") leftPressed = true;
-        });
-        document.addEventListener("keyup", (e) => {
-            if (e.key === "ArrowRight") rightPressed = false;
-            else if (e.key === "ArrowLeft") leftPressed = false;
-        });
+  // Check chain matches
+  setTimeout(() => {
+    if (checkMatches()) {
+      processMatches();
+    } else if (moves <= 0) {
+      alert("Game Over, Shehara! Final Score: " + score);
+    }
+  }, 300);
+}
 
-        // Touch Control
-        canvas.addEventListener("touchmove", (e) => {
-            let relativeX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
-            if (relativeX > 0 && relativeX < canvas.width) {
-                paddleX = relativeX - paddleWidth / 2;
-            }
-        });
+function updateBoardUI() {
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell, idx) => {
+    cell.textContent = board[idx] || "";
+  });
+}
 
-        canvas.addEventListener("mousemove", (e) => {
-            let relativeX = e.clientX - canvas.offsetLeft;
-            if (relativeX > 0 && relativeX < canvas.width) {
-                paddleX = relativeX - paddleWidth / 2;
-            }
-        });
+function resetGame() {
+  score = 0;
+  moves = 20;
+  document.getElementById("score").textContent = score;
+  document.getElementById("moves").textContent = moves;
+  createBoard();
+}
 
-        // Collision Detection
-        function collisionDetection() {
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    let b = bricks[c][r];
-                    if (b.status === 1) {
-                        if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-                            dy = -dy;
-                            b.status = 0;
-                            score += 10;
-                            playSound('hit');
+createBoard();
+</script>
 
-                            if (score === brickRowCount * brickColumnCount * 10 * level) {
-                                level++;
-                                initBricks();
-                                x = canvas.width / 2;
-                                y = canvas.height - 45;
-                                dx += 1;
-                                dy = -Math.abs(dy) - 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        function drawBall() {
-            ctx.shadowBlur = 12;
-            ctx.shadowColor = "#38bdf8";
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "#e0f2fe";
-            ctx.fill();
-            ctx.closePath();
-            ctx.shadowBlur = 0;
-        }
-
-        function drawPaddle() {
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = "#0284c7";
-            ctx.beginPath();
-            ctx.rect(paddleX, canvas.height - paddleHeight - 15, paddleWidth, paddleHeight);
-            ctx.fillStyle = "#38bdf8";
-            ctx.fill();
-            ctx.closePath();
-            ctx.shadowBlur = 0;
-        }
-
-        function drawBricks() {
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    if (bricks[c][r].status === 1) {
-                        let brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-                        let brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-                        bricks[c][r].x = brickX;
-                        bricks[c][r].y = brickY;
-
-                        ctx.shadowBlur = 8;
-                        ctx.shadowColor = "#0284c7";
-                        ctx.beginPath();
-                        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                        ctx.fillStyle = r % 2 === 0 ? "#0284c7" : "#38bdf8";
-                        ctx.fill();
-                        ctx.closePath();
-                        ctx.shadowBlur = 0;
-                    }
-                }
-            }
-        }
-
-        function drawUI() {
-            ctx.font = "bold 13px 'Courier New', monospace";
-            ctx.fillStyle = "#38bdf8";
-            ctx.fillText("SCORE: " + String(score).padStart(6, '0'), 15, 25);
-            ctx.fillText("LVL " + level, canvas.width / 2 - 20, 25);
-            ctx.fillText("❄️ " + lives, canvas.width - 45, 25);
-        }
-
-        function draw() {
-            ctx.fillStyle = "#00050f";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            drawBricks();
-            drawBall();
-            drawPaddle();
-            drawUI();
-            collisionDetection();
-
-            // Wall bounce (Left/Right)
-            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-                dx = -dx;
-                playSound('hit');
-            }
-
-            // Wall bounce (Top)
-            if (y + dy < ballRadius + 30) {
-                dy = -dy;
-                playSound('hit');
-            } else if (y + dy > canvas.height - paddleHeight - 15 - ballRadius) {
-                if (x > paddleX && x < paddleX + paddleWidth) {
-                    dy = -dy;
-                    playSound('paddle');
-                } else if (y + dy > canvas.height - ballRadius) {
-                    lives--;
-                    playSound('gameover');
-                    if (!lives) {
-                        gameOver = true;
-                    } else {
-                        x = canvas.width / 2;
-                        y = canvas.height - 45;
-                        dx = 3;
-                        dy = -3;
-                        paddleX = (canvas.width - paddleWidth) / 2;
-                    }
-                }
-            }
-
-            if (rightPressed && paddleX < canvas.width - paddleWidth) paddleX += 6;
-            else if (leftPressed && paddleX > 0) paddleX -= 6;
-
-            x += dx;
-            y += dy;
-
-            if (gameOver) {
-                ctx.fillStyle = "rgba(0, 5, 15, 0.9)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = "#38bdf8";
-                ctx.fillStyle = "#38bdf8";
-                ctx.font = "bold 22px 'Courier New', monospace";
-                ctx.textAlign = "center";
-                ctx.fillText("FROST BREAKOUT", canvas.width / 2, canvas.height / 2 - 20);
-                ctx.font = "15px 'Courier New', monospace";
-                ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 + 10);
-                ctx.fillText("Tap to Restart ❄️", canvas.width / 2, canvas.height / 2 + 40);
-            } else {
-                requestAnimationFrame(draw);
-            }
-        }
-
-        canvas.addEventListener("click", () => {
-            if (gameOver) {
-                gameOver = false;
-                score = 0;
-                lives = 3;
-                level = 1;
-                dx = 3;
-                dy = -3;
-                initBricks();
-                x = canvas.width / 2;
-                y = canvas.height - 45;
-                draw();
-            }
-        });
-
-        draw();
-    </script>
 </body>
 </html>
+
