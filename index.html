@@ -2,261 +2,204 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Shadow Fight: Sasmitha vs Vinoth ⚔️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Vault Login 💖</title>
 <style>
-* { box-sizing: border-box; user-select: none; touch-action: none; margin: 0; padding: 0; }
-body, html {
-  width: 100%; height: 100%; overflow: hidden;
-  background: #020204; color: #fff;
-  font-family: 'Arial Black', Gadget, sans-serif;
-  display: flex; justify-content: center; align-items: center;
+* { box-sizing: border-box; user-select: none; }
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #0d021a, #2b0626, #12020f);
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
-#gameContainer {
-  position: relative; width: 100vw; height: 100vh;
-  background: #000; overflow: hidden;
-}
-canvas {
-  width: 100%; height: 100%; display: block;
-}
-/* UI Overlay */
-.hud-overlay {
-  position: absolute; top: 0; left: 0; width: 100%;
-  padding: 15px 25px; display: flex; justify-content: space-between;
-  z-index: 10; pointer-events: none;
-}
-.fighter-box { width: 40%; }
-.name { font-size: 16px; color: #00ffff; text-shadow: 0 0 8px #00ffff; margin-bottom: 5px; }
-.fighter-box.enemy .name { color: #ff0055; text-shadow: 0 0 8px #ff0055; text-align: right; }
-.hp-bar {
-  width: 100%; height: 22px; background: rgba(255,255,255,0.1);
-  border: 2px solid #fff; border-radius: 11px; overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.8);
-}
-.hp-fill {
-  height: 100%; background: linear-gradient(90deg, #ff0000, #ffcc00);
-  width: 100%; transition: width 0.1s linear;
-}
-.enemy .hp-fill { float: right; background: linear-gradient(270deg, #ff0000, #ffcc00); }
 
-/* Controls UI */
-.controls-layer {
-  position: absolute; bottom: 15px; left: 0; width: 100%;
-  padding: 0 20px; display: flex; justify-content: space-between;
-  z-index: 20; pointer-events: auto;
+.login-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 51, 153, 0.3);
+  border-radius: 25px;
+  padding: 35px 25px;
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255, 0, 128, 0.3);
+  position: relative;
+  z-index: 10;
 }
-.dpad, .attack-pad { display: flex; gap: 12px; align-items: center; }
-.btn {
-  width: 65px; height: 65px; background: rgba(20, 20, 30, 0.75);
-  border: 3px solid #ff0055; color: #fff; font-size: 22px;
-  border-radius: 50%; display: flex; justify-content: center; align-items: center;
-  box-shadow: 0 0 15px rgba(255,0,85,0.4); cursor: pointer;
-}
-.btn:active { background: #ff0055; transform: scale(0.92); }
-.btn-blue { border-color: #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.4); }
-.btn-blue:active { background: #00ffff; }
 
-#announcer {
-  position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
-  font-size: 32px; color: #ffcc00; text-shadow: 0 0 20px #ffcc00;
-  z-index: 30; pointer-events: none; text-align: center;
+.vault-icon {
+  font-size: 55px;
+  margin-bottom: 10px;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+h2 {
+  color: #ff3399;
+  margin-bottom: 5px;
+  font-size: 24px;
+  text-shadow: 0 0 10px rgba(255, 51, 153, 0.5);
+}
+
+p {
+  color: #ffb3d9;
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 51, 153, 0.4);
+  border-radius: 15px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  text-align: center;
+}
+
+input:focus {
+  border-color: #ff3399;
+  box-shadow: 0 0 15px rgba(255, 51, 153, 0.5);
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #ff3399, #cc0066);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 51, 153, 0.4);
+  transition: 0.2s;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+#errorMsg {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-top: 15px;
+  min-height: 18px;
+  font-weight: bold;
+}
+
+/* Success Dashboard Style */
+.dashboard {
+  display: none;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.success-heart {
+  font-size: 70px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  50% { transform: scale(1.2); }
 }
 </style>
 </head>
 <body>
 
-<div id="gameContainer">
-  <div class="hud-overlay">
-    <div class="fighter-box">
-      <div class="name">SASMITHA 🥷</div>
-      <div class="hp-bar"><div id="p1Hp" class="hp-fill"></div></div>
-    </div>
-    <div class="fighter-box enemy">
-      <div class="name">VINOTH ⚔️</div>
-      <div class="hp-bar"><div id="p2Hp" class="hp-fill"></div></div>
-    </div>
+<div class="login-card" id="loginBox">
+  <div class="vault-icon">🔐</div>
+  <h2>Secret Vault</h2>
+  <p>Enter the passcode to open Sasmitha's Heart</p>
+  
+  <div class="input-group">
+    <input type="password" id="passcode" placeholder="Enter Secret Code" maxlength="6">
   </div>
+  
+  <button onclick="checkLogin()">Unlock Vault 🔓</button>
+  <div id="errorMsg"></div>
+</div>
 
-  <div id="announcer">ROUND 1... FIGHT!</div>
-  <canvas id="stage"></canvas>
-
-  <div class="controls-layer">
-    <div class="dpad">
-      <div class="btn btn-blue" ontouchstart="keys.left=true" ontouchend="keys.left=false">◀</div>
-      <div class="btn btn-blue" ontouchstart="keys.right=true" ontouchend="keys.right=false">▶</div>
-      <div class="btn btn-blue" ontouchstart="doJump()">▲</div>
-    </div>
-    <div class="attack-pad">
-      <div class="btn" ontouchstart="doAttack('punch')">👊</div>
-      <div class="btn" ontouchstart="doAttack('kick')">🦶</div>
-      <div class="btn" ontouchstart="doAttack('slash')">🗡️</div>
-    </div>
-  </div>
+<!-- Welcome Dashboard (Hidden initially) -->
+<div class="login-card dashboard" id="dashBox">
+  <div class="success-heart">💖</div>
+  <h2 style="color:#00ffff; text-shadow: 0 0 10px #00ffff;">Access Granted!</h2>
+  <p style="color:#fff; font-size:15px; margin-top:15px;">
+    Welcome to the secret world, Sasmitha & Vinoth! ✨<br>
+    Your love story is safely locked in this digital vault forever. 🌹
+  </p>
+  <button onclick="lockVault()" style="margin-top:20px; background:linear-gradient(135deg, #00cccc, #006666);">Lock Again 🔒</button>
 </div>
 
 <script>
-// Canvas Engine Setup
-const canvas = document.getElementById('stage');
-const ctx = canvas.getContext('2d');
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resize);
-resize();
-
-// Sound Synthesizer
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playSound(type) {
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain); gain.connect(audioCtx.destination);
-
-  if (type === 'hit') {
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(160, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.1);
-    gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-  } else if (type === 'slash') {
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.15);
-    gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
-  }
-}
-
-// Game State
-let keys = { left: false, right: false };
-let gameOver = false;
-
-const p1 = { x: 100, y: 0, vx: 0, vy: 0, hp: 100, state: 'idle', color: '#00ffff', isGrounded: true };
-const p2 = { x: 500, y: 0, vx: 0, vy: 0, hp: 100, state: 'idle', color: '#ff0055', isGrounded: true };
-
-const gravity = 0.8;
-const floorY = canvas.height - 100;
-
-function doJump() {
-  if (p1.isGrounded && !gameOver) {
-    p1.vy = -16;
-    p1.isGrounded = false;
-  }
-}
-
-function doAttack(type) {
-  if (gameOver) return;
-  p1.state = type;
-  playSound(type === 'slash' ? 'slash' : 'hit');
-
-  // Hit Detection
-  let dist = Math.abs(p1.x - p2.x);
-  if (dist < 110) {
-    let dmg = type === 'slash' ? 18 : (type === 'kick' ? 14 : 10);
-    p2.hp = Math.max(0, p2.hp - dmg);
-    document.getElementById('p2Hp').style.width = p2.hp + '%';
-
-    if (p2.hp <= 0) {
-      gameOver = true;
-      document.getElementById('announcer').textContent = "🏆 SASMITHA WINS!";
+function checkLogin() {
+  const code = document.getElementById('passcode').value;
+  const errorMsg = document.getElementById('errorMsg');
+  
+  // මෙන්න මෙතන ඔයාට ඕන පාස්වර්ඩ් එක දාගන්න පුළුවන් (උදාහරණයක් විදිහට 1432)
+  if (code === "1432" || code === "sasmitha") {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('dashBox').style.display = 'block';
+    
+    // Celebration effect
+    for (let i = 0; i < 30; i++) {
+      createHeart();
     }
-  }
-
-  setTimeout(() => { if (!gameOver) p1.state = 'idle'; }, 250);
-}
-
-// AI Engine for Vinoth
-setInterval(() => {
-  if (gameOver) return;
-  let dist = p2.x - p1.x;
-  if (dist > 90) {
-    p2.x -= 3;
   } else {
-    // Enemy Attack
-    p2.state = 'punch';
-    playSound('hit');
-    p1.hp = Math.max(0, p1.hp - 8);
-    document.getElementById('p1Hp').style.width = p1.hp + '%';
-
-    if (p1.hp <= 0) {
-      gameOver = true;
-      document.getElementById('announcer').textContent = "💀 VINOTH WINS!";
-    }
-    setTimeout(() => { p2.state = 'idle'; }, 200);
+    errorMsg.textContent = "❌ Wrong Passcode! Hint: Try 1432";
+    // Shake effect
+    const card = document.getElementById('loginBox');
+    card.style.transform = "translateX(10px)";
+    setTimeout(() => card.style.transform = "translateX(-10px)", 100);
+    setTimeout(() => card.style.transform = "translateX(0)", 200);
   }
-}, 300);
-
-// Main Game Loop
-function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Background Arena
-  let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  grad.addColorStop(0, '#0a0210'); grad.addColorStop(1, '#2d0415');
-  ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Ground Floor
-  const currentFloorY = canvas.height - 100;
-  ctx.fillStyle = '#080204'; ctx.fillRect(0, currentFloorY, canvas.width, 100);
-  ctx.fillStyle = '#ff0055'; ctx.fillRect(0, currentFloorY, canvas.width, 4);
-
-  // Player Controls Logic
-  if (!gameOver) {
-    if (keys.left) p1.x = Math.max(40, p1.x - 6);
-    if (keys.right) p1.x = Math.min(p2.x - 50, p1.x + 6);
-  }
-
-  // Physics Update
-  p1.y += p1.vy; p1.vy += gravity;
-  if (p1.y >= 0) { p1.y = 0; p1.vy = 0; p1.isGrounded = true; }
-
-  // Draw Character Silhouette (Canvas Drawing)
-  drawNinja(p1, p1.x, currentFloorY + p1.y, true);
-  drawNinja(p2, p2.x, currentFloorY + p2.y, false);
-
-  requestAnimationFrame(loop);
 }
 
-function drawNinja(char, x, y, isPlayer) {
-  ctx.save();
-  ctx.translate(x, y);
-  if (!isPlayer) ctx.scale(-1, 1);
-
-  // Glow Effect
-  ctx.strokeStyle = char.color;
-  ctx.shadowColor = char.color;
-  ctx.shadowBlur = 12;
-  ctx.lineWidth = 3;
-  ctx.fillStyle = '#000';
-
-  // Head
-  ctx.beginPath(); ctx.arc(0, -110, 15, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-  // Body
-  ctx.beginPath(); ctx.rect(-12, -95, 24, 50); ctx.fill(); ctx.stroke();
-  // Legs
-  ctx.beginPath(); ctx.moveTo(-8, -45); ctx.lineTo(-15, 0); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(8, -45); ctx.lineTo(15, 0); ctx.stroke();
-
-  // Arms Animation States
-  if (char.state === 'punch') {
-    ctx.beginPath(); ctx.moveTo(10, -80); ctx.lineTo(35, -80); ctx.stroke(); // Punch
-  } else if (char.state === 'kick') {
-    ctx.beginPath(); ctx.moveTo(8, -45); ctx.lineTo(35, -45); ctx.stroke(); // Kick
-  } else if (char.state === 'slash') {
-    ctx.beginPath(); ctx.moveTo(10, -80); ctx.lineTo(40, -110); ctx.stroke(); // Sword Slash
-  } else {
-    ctx.beginPath(); ctx.moveTo(-10, -80); ctx.lineTo(-20, -50); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(10, -80); ctx.lineTo(20, -50); ctx.stroke();
-  }
-
-  ctx.restore();
+function lockVault() {
+  document.getElementById('passcode').value = "";
+  document.getElementById('errorMsg').textContent = "";
+  document.getElementById('dashBox').style.display = 'none';
+  document.getElementById('loginBox').style.display = 'block';
 }
 
-loop();
+function createHeart() {
+  const h = document.createElement('div');
+  h.textContent = Math.random() > 0.5 ? '❤️' : '✨';
+  h.style.position = 'fixed';
+  h.style.left = Math.random() * 100 + 'vw';
+  h.style.top = '-30px';
+  h.style.fontSize = '22px';
+  h.style.transition = 'transform 3s linear';
+  document.body.appendChild(h);
+
+  setTimeout(() => {
+    h.style.transform = `translateY(110vh) rotate(360deg)`;
+  }, 50);
+
+  setTimeout(() => h.remove(), 3200);
+}
 </script>
 
 </body>
